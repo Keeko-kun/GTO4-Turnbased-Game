@@ -5,6 +5,8 @@ using UnityEngine;
 public class MoveCamera : MonoBehaviour
 {
 
+    public GameObject cursor;
+
     private float rotateSpeed = 60;
     private float zoomSpeed = 0.35f;
     private float moveSpeed = 10;
@@ -33,9 +35,9 @@ public class MoveCamera : MonoBehaviour
             Vector3 translation = new Vector3(Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime, -Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime, 0);
             transform.Translate(translation);
 
-            transform.RotateAround(Vector3.zero, Vector3.up, Input.GetAxis("Left Trigger") * rotateSpeed * Time.deltaTime); //Rotate Left
+            transform.RotateAround(cursor.transform.position, Vector3.up, Input.GetAxis("Left Trigger") * rotateSpeed * Time.deltaTime); //Rotate Left
 
-            transform.RotateAround(Vector3.zero, Vector3.down, Input.GetAxis("Right Trigger") * rotateSpeed * Time.deltaTime); //Rotate Right
+            transform.RotateAround(cursor.transform.position, Vector3.down, Input.GetAxis("Right Trigger") * rotateSpeed * Time.deltaTime); //Rotate Right
         }
         else
         {

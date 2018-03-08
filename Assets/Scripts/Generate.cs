@@ -14,7 +14,7 @@ public class Generate : MonoBehaviour {
     private System.Random random = new System.Random();
     private float spacing = 2.5f;
 
-	void Start () {
+	void Awake () {
         //Generate Map
         map = new LevelPiece[mapSize, mapSize];
         for (int x = 0; x < mapSize; x++)
@@ -42,5 +42,10 @@ public class Generate : MonoBehaviour {
     {
         float z = 90 * (random.Next(0, 4));
         return new Vector3(0, 0, z);
+    }
+
+    public LevelPiece[,] GetMap()
+    {
+        return map;
     }
 }
