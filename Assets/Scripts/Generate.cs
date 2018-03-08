@@ -9,7 +9,6 @@ public class Generate : MonoBehaviour {
     public List<GameObject> pieces;
     public int mapSize;
     public Material aap64;
-    public GameObject underdrop;
 
     private LevelPiece[,] map;
     private System.Random random = new System.Random();
@@ -24,8 +23,6 @@ public class Generate : MonoBehaviour {
             {
                 map[x, z] = new LevelPiece(x, z, pieces[random.Next(0, pieces.Capacity)]);
                 GameObject g = Instantiate(map[x, z].Piece, GetVector3(map[x,z]), map[x, z].Piece.transform.rotation);
-                GameObject u = Instantiate(underdrop, GetVector3(map[x,z]), underdrop.transform.rotation);
-                u.GetComponent<Renderer>().material = aap64;
                 g.GetComponent<Renderer>().material = aap64;
                 g.transform.Rotate(RandomRotation());
                 
