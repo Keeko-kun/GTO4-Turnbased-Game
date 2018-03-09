@@ -12,15 +12,6 @@ public class MoveCamera : MonoBehaviour
     private float moveSpeed = 10;
     private float orthographicSize;
 
-    private Vector3 sw = new Vector3(13.5f, 31.31f, -6.5f);
-    private Vector3 se = new Vector3(13.5f, 31.31f, 16);
-    private Vector3 ne = new Vector3(-24, 31.31f, 16);
-    private Vector3 nw = new Vector3(-24, 31.31f, -6.5f);
-    private int swR = -60;
-    private int seR = -120;
-    private int neR = -240;
-    private int nwR = -300;
-
     void Update()
     {
         orthographicSize = GetComponent<Camera>().orthographicSize;

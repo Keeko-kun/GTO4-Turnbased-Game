@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Assets;
-
 public class Generate : MonoBehaviour {
 
     public List<GameObject> pieces;
@@ -47,5 +45,10 @@ public class Generate : MonoBehaviour {
     public LevelPiece[,] GetMap()
     {
         return map;
+    }
+
+    public void SetUnit(int x, int z, Unit unit)
+    {
+        map[x, z].Unit = unit;
     }
 }

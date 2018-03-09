@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Assets;
 
 public class PlayerCursor : MonoBehaviour {
 
@@ -10,18 +9,16 @@ public class PlayerCursor : MonoBehaviour {
 
     private LevelPiece currentTile;
     private float tileSize = 2.5f;
-    private float baseY;
 
     private bool canMove;
 
     void Start () {
-        baseY = transform.position.y;
 
         canMove = true;
 
         currentTile = map.GetMap()[startingTile.x, startingTile.y];
 
-        transform.position = new Vector3(-currentTile.PosX * tileSize, baseY, currentTile.PosZ * tileSize);
+        transform.position = new Vector3(-currentTile.PosX * tileSize, transform.position.y, currentTile.PosZ * tileSize);
 	}
 	
 	void Update () {
@@ -50,8 +47,6 @@ public class PlayerCursor : MonoBehaviour {
             canMove = true;
         }
 
-        Debug.Log(Input.GetAxisRaw("HorizontalL") + ", " + Input.GetAxisRaw("VerticalL"));
-
     }
 
     void MoveCursor(int z, int x)
@@ -70,6 +65,14 @@ public class PlayerCursor : MonoBehaviour {
         {
             Debug.Log("Can't move");
             return;
+        }
+    }
+
+    public LevelPiece GetCurrentTile
+    {
+        get
+        {
+            return currentTile;
         }
     }
 }

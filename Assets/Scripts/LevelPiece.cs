@@ -4,43 +4,56 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets
+public class LevelPiece
 {
-    public class LevelPiece
+    private float posX;
+    private float posZ;
+    private GameObject piece;
+
+    private Unit unit;
+
+    public LevelPiece(float posX, float posZ, GameObject piece)
     {
-        private float posX;
-        private float posZ;
-        private GameObject piece;
+        this.posX = posX;
+        this.posZ = posZ;
+        this.piece = piece;
+        unit = null;
+    }
 
-        public LevelPiece(float posX, float posZ, GameObject piece)
+    public GameObject Piece
+    {
+        get
         {
-            this.posX = posX;
-            this.posZ = posZ;
-            this.piece = piece;
+            return piece;
         }
+    }
 
-        public GameObject Piece
+    public float PosX
+    {
+        get
         {
-            get
-            {
-                return piece;
-            }
+            return posX;
         }
+    }
 
-        public float PosX
+    public float PosZ
+    {
+        get
         {
-            get
-            {
-                return posX;
-            }
+            return posZ;
         }
+    }
 
-        public float PosZ
+    public Unit Unit
+    {
+        get
         {
-            get
-            {
-                return posZ;
-            }
+            return unit;
+        }
+        set
+        {
+            unit = value;
         }
     }
 }
+
