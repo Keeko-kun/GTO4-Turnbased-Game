@@ -10,11 +10,13 @@ public class PlayerCursor : MonoBehaviour {
 
     private LevelPiece currentTile;
     private float tileSize = 2.5f;
-    private float baseY = 3.5f;
+    private float baseY;
 
     private bool canMove;
 
     void Start () {
+        baseY = transform.position.y;
+
         canMove = true;
 
         currentTile = map.GetMap()[startingTile.x, startingTile.y];
