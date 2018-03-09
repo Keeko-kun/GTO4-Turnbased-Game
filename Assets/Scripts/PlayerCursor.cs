@@ -27,31 +27,37 @@ public class PlayerCursor : MonoBehaviour {
 	void Update () {
         if (canMove)
         {
-            if (Input.GetAxis("HorizontalL") == 1)
+            if (Input.GetAxisRaw("HorizontalL") == 1)
             {
                 MoveCursor(1, 0);                
             }
-            else if (Input.GetAxis("HorizontalL") == -1)
+            else if (Input.GetAxisRaw("HorizontalL") == -1)
             {
                 MoveCursor(-1, 0);
             }
-            else if (Input.GetAxis("VerticalL") == 1)
+            else if (Input.GetAxisRaw("VerticalL") == 1)
             {
                 MoveCursor(0, 1);
             }
-            else if (Input.GetAxis("VerticalL") == -1)
+            else if (Input.GetAxisRaw("VerticalL") == -1)
             {
                 MoveCursor(0, -1);
             }
-            StartCoroutine(WaitForMove());
         }
-	}
+
+        if (Input.GetAxisRaw("VerticalL") == 0 && Input.GetAxisRaw("HorizontalL") == 0)
+        {
+            canMove = true;
+        }
+
+        Debug.Log(Input.GetAxisRaw("HorizontalL") + ", " + Input.GetAxisRaw("VerticalL"));
+
+    }
 
     void MoveCursor(int z, int x)
     {
+        canMove = false;
         Vector2Int tile = new Vector2Int((int)(currentTile.PosX - x), (int)(currentTile.PosZ + z));
-
-        Debug.Log(tile);
 
         if (tile.x < map.GetMap().GetLength(0) &&
             tile.y < map.GetMap().GetLength(1) &&
@@ -65,12 +71,5 @@ public class PlayerCursor : MonoBehaviour {
             Debug.Log("Can't move");
             return;
         }
-    }
-
-    IEnumerator WaitForMove()
-    {
-        canMove = false;
-        yield return new WaitForSeconds(.15f);
-        canMove = true;
     }
 }
