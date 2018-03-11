@@ -24,9 +24,6 @@ GameObject:
   - component: {fileID: 124288462446573926}
   - component: {fileID: 81466798668039432}
   - component: {fileID: 114273138163502392}
-  - component: {fileID: 114597233582687610}
-  - component: {fileID: 114109548783880576}
-  - component: {fileID: 114922207693554994}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -97,17 +94,6 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1282037951466376}
   m_Enabled: 1
---- !u!114 &114109548783880576
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1282037951466376}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 854cdeb757d4d004cbf8193c2dad7813, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114273138163502392
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -120,40 +106,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   profile: {fileID: 11400000, guid: 544afb6166e284143b93ef8459b0d822, type: 2}
---- !u!114 &114597233582687610
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1282037951466376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94b6b7e017e66ac46901df314d4bc8c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pieces:
-  - {fileID: 100000, guid: 46510418c96932643b62562060ee4028, type: 3}
-  - {fileID: 100000, guid: 4cb8def734226b54f8764fc49af7c5de, type: 3}
-  - {fileID: 100000, guid: 84984c2de69244649a9d121005c9fe4c, type: 3}
-  - {fileID: 100000, guid: b4bdfb0fc8954e7438529bfe8480ac1b, type: 3}
-  - {fileID: 100000, guid: b4bdfb0fc8954e7438529bfe8480ac1b, type: 3}
-  - {fileID: 100000, guid: b4bdfb0fc8954e7438529bfe8480ac1b, type: 3}
-  - {fileID: 100000, guid: b4bdfb0fc8954e7438529bfe8480ac1b, type: 3}
-  - {fileID: 100000, guid: b4bdfb0fc8954e7438529bfe8480ac1b, type: 3}
-  mapSize: 8
-  aap64: {fileID: 2100000, guid: 410a320add878bd49bfb8dc76e218943, type: 2}
-  underdrop: {fileID: 100000, guid: af9d07701531a0a40982604273592556, type: 3}
---- !u!114 &114922207693554994
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1282037951466376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c3eea421e3ee0e49b241994624cad1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!124 &124288462446573926
 Behaviour:
   m_ObjectHideFlags: 1
