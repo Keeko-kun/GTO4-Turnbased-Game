@@ -11,6 +11,9 @@ public class SpawnCubeUnit : MonoBehaviour
     private bool buttonClicked;
     private float spacing = 2.5f;
 
+    private Node a = null;
+    private Node b = null;
+
     private void Start()
     {
         buttonClicked = false;
@@ -30,6 +33,31 @@ public class SpawnCubeUnit : MonoBehaviour
                     GameObject g = Instantiate(unit, new Vector3(cursor.GetCurrentTile.PosX * spacing * -1, unit.transform.position.y, cursor.GetCurrentTile.PosZ * spacing), unit.transform.rotation);
                     WriteUnitToTile(g);
                 }
+            }
+        }
+        if (Input.GetKeyDown("joystick button 1"))
+        {
+            if (a == null)
+            {
+                a = new Node();
+                a.X = (int)cursor.GetCurrentTile.PosX;
+                a.Z = (int)cursor.GetCurrentTile.PosZ;
+                a.Walkable = true;
+            }
+            else if (b == null)
+            {
+                b = new Node();
+                b.X = (int)cursor.GetCurrentTile.PosX;
+                b.Z = (int)cursor.GetCurrentTile.PosZ;
+                a.Walkable = true;
+
+                cursor.map.FindPath(a, b, unit);
+            }
+            else if (a != null && b != null)
+            {
+                a = null;
+                b = null;
+                cursor.map.DestroyPath();
             }
         }
         else

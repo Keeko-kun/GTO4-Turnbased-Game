@@ -11,16 +11,22 @@ public class Generate : MonoBehaviour {
     private LevelPiece[,] map;
     private System.Random random = new System.Random();
     private float spacing = 2.5f;
+    private List<LevelPiece> path;
+    private List<GameObject> physicalPath;
 
-	void Awake () {
+
+    void Awake () {
         //Generate Map
         map = new LevelPiece[mapSize, mapSize];
         for (int x = 0; x < mapSize; x++)
         {
             for (int z = 0; z < mapSize; z++)
             {
-                map[x, z] = new LevelPiece(x, z, pieces[random.Next(0, pieces.Capacity)]);
-                GameObject g = Instantiate(map[x, z].Piece, GetVector3(map[x,z]), map[x, z].Piece.transform.rotation);
+                GameObject piece = pieces[random.Next(0, pieces.Capacity)];
+                map[x, z] = new LevelPiece(x, z);
+                GameObject g = Instantiate(piece, GetVector3(map[x,z]), piece.transform.rotation);
+                map[x, z].Piece = g;
+                map[x, z].Walkable = true; //Set all tiles Walkable true, for now
                 g.GetComponent<Renderer>().material = aap64;
                 g.transform.Rotate(RandomRotation());
                 
@@ -50,5 +56,28 @@ public class Generate : MonoBehaviour {
     public void SetUnit(int x, int z, Unit unit)
     {
         map[x, z].Unit = unit;
+    }
+
+    public void FindPath(Node a, Node b, GameObject block)
+    {
+        physicalPath = new List<GameObject>();
+        Debug.Log(b);
+        aStarPath aStar = new aStarPath(map);
+        aStar.FindPath(a, b);
+        path = aStar.GetPath();
+        Debug.Log(path.Count);
+        foreach (LevelPiece tile in path)
+        {
+            GameObject g = Instantiate(block, new Vector3(tile.PosX * spacing * -1, block.transform.position.y, tile.PosZ * spacing), block.transform.rotation);
+            physicalPath.Add(g);
+        }
+    }
+
+    public void DestroyPath()
+    {
+        foreach(GameObject block in physicalPath)
+        {
+            Destroy(block);
+        }
     }
 }

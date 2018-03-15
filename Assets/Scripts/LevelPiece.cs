@@ -12,19 +12,24 @@ public class LevelPiece
 
     private Unit unit;
 
-    public LevelPiece(float posX, float posZ, GameObject piece)
+    public LevelPiece(float posX, float posZ)
     {
         this.posX = posX;
         this.posZ = posZ;
-        this.piece = piece;
         unit = null;
     }
+
+    public bool Walkable { get; set; }
 
     public GameObject Piece
     {
         get
         {
             return piece;
+        }
+        set
+        {
+            piece = value;
         }
     }
 
