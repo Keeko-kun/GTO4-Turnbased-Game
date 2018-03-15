@@ -41,7 +41,7 @@ public class aStarPath
     {
         //Create the open and closed lists.
         List<Node> openList = new List<Node>();
-        HashSet<Node> closedList = new HashSet<Node>();
+        List<Node> closedList = new List<Node>();
         Node current = null;
         Node previous = null;
 
@@ -53,7 +53,7 @@ public class aStarPath
             for (int i = 1; i < openList.Count; i++)
             {
                 if (openList[i].FCost < current.FCost ||
-                        openList[i].FCost == current.FCost && openList[i].HCost < current.HCost)
+                        (openList[i].FCost == current.FCost && openList[i].GCost < current.GCost))
                 {
                     current = openList[i]; //Set the Node with the lowest F-Cost as the current Node.
                 }
@@ -104,11 +104,12 @@ public class aStarPath
                 if (!openList.Contains(neighbour))
                 {
                     //Set the Cost values for the neighbour
-                    neighbour.GCost = GetDistance(nodes[start.X, start.Z], neighbour);
+                    neighbour.GCost = current.GCost + 1;
                     neighbour.HCost = GetDistance(neighbour, nodes[end.X, end.Z]);
                     neighbour.FCost = neighbour.GCost + neighbour.HCost;
                     neighbour.Parent = current;
                     openList.Add(neighbour);
+                    nodes[neighbour.X, neighbour.Z] = neighbour;
                 }
             }
 

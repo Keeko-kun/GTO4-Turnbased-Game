@@ -26,7 +26,7 @@ public class Generate : MonoBehaviour {
                 map[x, z] = new LevelPiece(x, z);
                 GameObject g = Instantiate(piece, GetVector3(map[x,z]), piece.transform.rotation);
                 map[x, z].Piece = g;
-                map[x, z].Walkable = true; //Set all tiles Walkable true, for now
+                map[x, z].Walkable = g.GetComponent<TerrainProperties>().walkable; //Set all tiles Walkable true, for now
                 g.GetComponent<Renderer>().material = aap64;
                 g.transform.Rotate(RandomRotation());
                 
