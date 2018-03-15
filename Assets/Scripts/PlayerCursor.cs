@@ -60,6 +60,11 @@ public class PlayerCursor : MonoBehaviour {
         {
             transform.Translate(tileSize * x, 0, tileSize * z);
             currentTile = map.GetMap()[tile.x, tile.y];
+            Node b = new Node();
+            b.X = tile.x;
+            b.Z = tile.y;
+            b.Walkable = true;
+            GetComponent<SpawnCubeUnit>().UpdatePath(b);
         }
         else
         {

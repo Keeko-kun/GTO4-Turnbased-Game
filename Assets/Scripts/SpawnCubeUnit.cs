@@ -12,7 +12,6 @@ public class SpawnCubeUnit : MonoBehaviour
     private float spacing = 2.5f;
 
     private Node a = null;
-    private Node b = null;
 
     private void Start()
     {
@@ -44,19 +43,9 @@ public class SpawnCubeUnit : MonoBehaviour
                 a.Z = (int)cursor.GetCurrentTile.PosZ;
                 a.Walkable = true;
             }
-            else if (b == null)
-            {
-                b = new Node();
-                b.X = (int)cursor.GetCurrentTile.PosX;
-                b.Z = (int)cursor.GetCurrentTile.PosZ;
-                a.Walkable = true;
-
-                cursor.map.FindPath(a, b, unit);
-            }
-            else if (a != null && b != null)
+            else
             {
                 a = null;
-                b = null;
                 cursor.map.DestroyPath();
             }
         }
@@ -70,6 +59,15 @@ public class SpawnCubeUnit : MonoBehaviour
     {
         Unit u = new Unit(g, "Blocky");
         cursor.map.SetUnit((int)cursor.GetCurrentTile.PosX, (int)cursor.GetCurrentTile.PosZ, u);
+    }
+
+    public void UpdatePath(Node b)
+    {
+        if (a != null)
+        {
+            cursor.map.DestroyPath();
+            cursor.map.FindPath(a, b, unit);
+        }
     }
 
 }

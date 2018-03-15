@@ -1230,7 +1230,7 @@ MonoBehaviour:
   - {fileID: 100000, guid: b4bdfb0fc8954e7438529bfe8480ac1b, type: 3}
   - {fileID: 100000, guid: b4bdfb0fc8954e7438529bfe8480ac1b, type: 3}
   - {fileID: 100000, guid: b4bdfb0fc8954e7438529bfe8480ac1b, type: 3}
-  mapSize: 9
+  mapSize: 12
   aap64: {fileID: 2100000, guid: 68316e815487f9943888537df560b1ce, type: 2}
 --- !u!4 &1687473563
 Transform:

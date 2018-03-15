@@ -12,7 +12,7 @@ public class Generate : MonoBehaviour {
     private System.Random random = new System.Random();
     private float spacing = 2.5f;
     private List<LevelPiece> path;
-    private List<GameObject> physicalPath;
+    private List<GameObject> physicalPath = new List<GameObject>();
 
 
     void Awake () {
