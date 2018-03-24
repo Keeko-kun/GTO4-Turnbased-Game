@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Generate : MonoBehaviour {
 
-    public List<GameObject> pieces;
+    public List<GameObject> grass;
+    public GameObject water;
+    public GameObject bridge;
     public int mapSize;
     public Material aap64;
 
@@ -16,23 +18,85 @@ public class Generate : MonoBehaviour {
 
 
     void Awake () {
-        //Generate Map
+        GenerateGrass();
+	}
+
+    private void GenerateGrass()
+    {
         map = new LevelPiece[mapSize, mapSize];
         for (int x = 0; x < mapSize; x++)
         {
             for (int z = 0; z < mapSize; z++)
             {
-                GameObject piece = pieces[random.Next(0, pieces.Capacity)];
+                GameObject piece = grass[random.Next(0, grass.Capacity)];
                 map[x, z] = new LevelPiece(x, z);
-                GameObject g = Instantiate(piece, GetVector3(map[x,z]), piece.transform.rotation);
+                GameObject g = Instantiate(piece, GetVector3(map[x, z]), piece.transform.rotation);
                 map[x, z].Piece = g;
-                map[x, z].Walkable = g.GetComponent<TerrainProperties>().walkable; //Set all tiles Walkable true, for now
-                g.GetComponent<Renderer>().material = aap64;
+                map[x, z].Walkable = g.GetComponent<TerrainProperties>().walkable;
                 g.transform.Rotate(RandomRotation());
-                
+
             }
         }
-	}
+        GenerateRiver();
+    }
+
+    private void GenerateRiver()
+    {
+        bool randomDirection = false;
+        int randomZ = random.Next(0, 1) * 2 - 1;
+        int safeZone = mapSize / 4;
+        int startPosZ = random.Next(safeZone + 1, mapSize - safeZone);
+        int oldZ = 0;
+        int doubleX = 0;
+        for (int i = 0; i < mapSize; i++)
+        {
+            Destroy(map[i, startPosZ].Piece);
+            map[i, startPosZ] = new LevelPiece(i, startPosZ);
+            GameObject g = Instantiate(water, GetVector3(map[i, startPosZ]), water.transform.rotation);
+            map[i, startPosZ].Piece = g;
+            map[i, startPosZ].Walkable = g.GetComponent<TerrainProperties>().walkable;
+
+            if (random.Next(0,100) >= 80 && !randomDirection && i != 0)
+            {
+                randomDirection = true;
+                oldZ = startPosZ;
+                doubleX = i;
+                i--;
+                startPosZ += randomZ;
+            }
+        }
+        GenerateBridges(randomDirection, oldZ, startPosZ, doubleX);
+    }
+
+    private void GenerateBridges(bool changedDirection, int oldZ, int currentZ, int doubleX)
+    {
+        int bridges = (int)Math.Ceiling((double)(mapSize / 6));
+
+        for (int i = 0; i < bridges; i++)
+        {
+            int bridgeX = random.Next(0, mapSize);
+            int bridgeZ;
+            if (bridgeX == doubleX && changedDirection)
+            {
+                bridgeX += random.Next(0, 1) * 2 - 1;
+            }
+
+            if (bridgeX > doubleX)
+            {
+                bridgeZ = currentZ;
+            }
+            else
+            {
+                bridgeZ = oldZ;
+            }
+
+            Destroy(map[bridgeX, bridgeZ].Piece);
+            map[bridgeX, bridgeZ] = new LevelPiece(bridgeX, bridgeZ);
+            GameObject g = Instantiate(bridge, GetVector3(map[bridgeX, bridgeZ]), bridge.transform.rotation);
+            map[bridgeX, bridgeZ].Piece = g;
+            map[bridgeX, bridgeZ].Walkable = g.GetComponent<TerrainProperties>().walkable;
+        }
+    }
 
     private Vector3 GetVector3(LevelPiece piece)
     {
