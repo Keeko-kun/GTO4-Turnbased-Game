@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCursor : MonoBehaviour {
+public class MoveCursor : MonoBehaviour {
 
     public Generate map;
     public Vector2Int startingTile;
@@ -26,19 +26,19 @@ public class PlayerCursor : MonoBehaviour {
         {
             if (Input.GetAxisRaw("HorizontalL") == 1)
             {
-                MoveCursor(1, 0);                
+                Move(1, 0);                
             }
             else if (Input.GetAxisRaw("HorizontalL") == -1)
             {
-                MoveCursor(-1, 0);
+                Move(-1, 0);
             }
             else if (Input.GetAxisRaw("VerticalL") == 1)
             {
-                MoveCursor(0, 1);
+                Move(0, 1);
             }
             else if (Input.GetAxisRaw("VerticalL") == -1)
             {
-                MoveCursor(0, -1);
+                Move(0, -1);
             }
         }
 
@@ -49,7 +49,7 @@ public class PlayerCursor : MonoBehaviour {
 
     }
 
-    void MoveCursor(int z, int x)
+    void Move(int z, int x)
     {
         canMove = false;
         Vector2Int tile = new Vector2Int((int)(currentTile.PosX - x), (int)(currentTile.PosZ + z));
@@ -60,11 +60,6 @@ public class PlayerCursor : MonoBehaviour {
         {
             transform.Translate(tileSize * x, 0, tileSize * z);
             currentTile = map.GetMap()[tile.x, tile.y];
-            Node b = new Node();
-            b.X = tile.x;
-            b.Z = tile.y;
-            b.Walkable = true;
-            GetComponent<SpawnCubeUnit>().UpdatePath(b);
         }
         else
         {

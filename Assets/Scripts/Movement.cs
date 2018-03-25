@@ -1,0 +1,98 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Movement : MonoBehaviour {
+
+    public float walkSpeed;
+    public Pathfinding pathfinder;
+    public LevelPiece currentTile;
+
+    private Animator anim;
+    private bool isTurning;
+
+
+
+    void Start () {
+        anim = GetComponent<Animator>();
+        isTurning = false;
+	}
+	
+    public void Move(LevelPiece target)
+    {
+        List<LevelPiece> path = pathfinder.FindPath(new Node((int)currentTile.PosX, (int)currentTile.PosZ, currentTile.Walkable),
+                                                    new Node((int)target.PosX, (int)target.PosZ, target.Walkable));
+        Debug.Log(path.Count);
+        StartCoroutine(StartMovement(path));
+    }
+
+    IEnumerator StartMovement(List<LevelPiece> path)
+    {
+        LevelPiece currentlyOn = currentTile;
+
+        foreach(LevelPiece tile in path)
+        {
+            yield return new WaitForEndOfFrame();
+
+            Vector3 forward = transform.forward;
+            forward.x = Mathf.Round(forward.x);
+            forward.z = Mathf.Round(forward.z);
+            Vector3 move = new Vector3(tile.PosX * -1 - currentlyOn.PosX * -1, 0, tile.PosZ - currentlyOn.PosZ);
+            if (forward.x == move.x && forward.z == move.z)
+            {
+                yield return StartCoroutine(WalkForward(new Vector3(tile.PosX * 2.5f * -1, transform.position.y, tile.PosZ *2.5f)));
+            }
+            else
+            {
+                Debug.Log(move.z);
+                if (move.x  < 0 || move.z * forward.x * -1 < 0)
+                {
+                    yield return StartCoroutine(Turn("turnLeft", -1));
+                }
+                else
+                {
+                    yield return StartCoroutine(Turn("turnRight", 1));
+                }
+                yield return StartCoroutine(WalkForward(new Vector3(tile.PosX * 2.5f * -1, transform.position.y, tile.PosZ * 2.5f)));
+            }
+            currentlyOn = tile;
+        }
+    }
+
+    IEnumerator WalkForward(Vector3 targetPos)
+    {
+        anim.SetBool("canWalk", true);
+
+        Vector3 forward = transform.forward;
+        forward.x = Mathf.Round(forward.x);
+        forward.z = Mathf.Round(forward.z);
+
+        Vector3 currentPos = transform.position;
+
+        while(transform.position.x * forward.x < targetPos.x * forward.x  || transform.position.z * forward.z < targetPos.z * forward.z)
+        {
+            transform.Translate(0, 0, walkSpeed / 500);
+            yield return new WaitForEndOfFrame();
+        }
+
+        transform.position = targetPos;
+    }
+
+    IEnumerator Turn(string animation, int direction)
+    {
+        yield return new WaitForEndOfFrame();
+        anim.SetBool(animation, true);
+        float currentRotation = transform.rotation.eulerAngles.y;
+        float targetRotation = transform.rotation.eulerAngles.y + 90;
+        float actualRotation = transform.rotation.eulerAngles.y + 90 * direction;
+        while (currentRotation <= targetRotation)
+        {
+            transform.Rotate(0, 0.75f * direction, 0);
+            currentRotation += 0.75f;
+            yield return new WaitForEndOfFrame();
+            anim.SetBool(animation, false);
+        }
+
+        transform.eulerAngles = new Vector3(0, actualRotation, 0);
+    }
+}

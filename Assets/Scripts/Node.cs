@@ -19,5 +19,15 @@ public class Node
 
     }
 
+    public Node(int x, int z, bool walkable)
+    {
+        HCost = 0;
+        GCost = 0;
+        FCost = 0;
+        X = x;
+        Z = z;
+        Walkable = walkable;
+    }
+
 }
 

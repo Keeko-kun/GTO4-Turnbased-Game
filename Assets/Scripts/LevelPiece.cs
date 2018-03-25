@@ -10,7 +10,7 @@ public class LevelPiece
     private float posZ;
     private GameObject piece;
 
-    private Unit unit;
+    private GameObject unit;
 
     public LevelPiece(float posX, float posZ)
     {
@@ -49,7 +49,7 @@ public class LevelPiece
         }
     }
 
-    public Unit Unit
+    public GameObject Unit
     {
         get
         {

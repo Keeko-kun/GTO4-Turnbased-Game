@@ -126,12 +126,11 @@ public class aStarPath
 
         while (current.X != start.X || current.Z != start.Z)
         {
-            Debug.Log(map[current.X, current.Z]);
             path.Add(map[current.X, current.Z]);
             current = current.Parent;
         }
 
-        path.Add(map[start.X, start.Z]);
+        //path.Add(map[start.X, start.Z]);
 
         path.Reverse();
 

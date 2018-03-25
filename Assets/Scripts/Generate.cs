@@ -8,7 +8,7 @@ public class Generate : MonoBehaviour {
     public GameObject water;
     public GameObject bridge;
     public int mapSize;
-    public Material aap64;
+    public GameObject unit;
 
     private LevelPiece[,] map;
     private System.Random random = new System.Random();
@@ -19,6 +19,7 @@ public class Generate : MonoBehaviour {
 
     void Awake () {
         GenerateGrass();
+        SpawnUnit();
 	}
 
     private void GenerateGrass()
@@ -98,6 +99,14 @@ public class Generate : MonoBehaviour {
         }
     }
 
+    private void SpawnUnit()
+    {
+        GameObject u = Instantiate(unit, unit.transform.position, unit.transform.rotation);
+        SetUnit(0, 0, u);
+        u.GetComponent<Movement>().pathfinder = GetComponent<Pathfinding>();
+        u.GetComponent<Movement>().currentTile = map[0, 0];
+    }
+
     private Vector3 GetVector3(LevelPiece piece)
     {
         float x = (piece.PosX * spacing) * -1;
@@ -117,31 +126,8 @@ public class Generate : MonoBehaviour {
         return map;
     }
 
-    public void SetUnit(int x, int z, Unit unit)
+    public void SetUnit(int x, int z, GameObject unit)
     {
         map[x, z].Unit = unit;
-    }
-
-    public void FindPath(Node a, Node b, GameObject block)
-    {
-        physicalPath = new List<GameObject>();
-        Debug.Log(b);
-        aStarPath aStar = new aStarPath(map);
-        aStar.FindPath(a, b);
-        path = aStar.GetPath();
-        Debug.Log(path.Count);
-        foreach (LevelPiece tile in path)
-        {
-            GameObject g = Instantiate(block, new Vector3(tile.PosX * spacing * -1, block.transform.position.y, tile.PosZ * spacing), block.transform.rotation);
-            physicalPath.Add(g);
-        }
-    }
-
-    public void DestroyPath()
-    {
-        foreach(GameObject block in physicalPath)
-        {
-            Destroy(block);
-        }
     }
 }
