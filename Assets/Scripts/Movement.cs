@@ -26,6 +26,14 @@ public class Movement : MonoBehaviour {
         StartCoroutine(StartMovement(path));
     }
 
+    public Vector3 Forward()
+    {
+        Vector3 forward = transform.forward;
+        forward.x = Mathf.Round(forward.x);
+        forward.z = Mathf.Round(forward.z);
+        return forward;
+    }
+
     IEnumerator StartMovement(List<LevelPiece> path)
     {
         LevelPiece currentlyOn = currentTile;
@@ -34,18 +42,15 @@ public class Movement : MonoBehaviour {
         {
             yield return new WaitForEndOfFrame();
 
-            Vector3 forward = transform.forward;
-            forward.x = Mathf.Round(forward.x);
-            forward.z = Mathf.Round(forward.z);
             Vector3 move = new Vector3(tile.PosX * -1 - currentlyOn.PosX * -1, 0, tile.PosZ - currentlyOn.PosZ);
-            if (forward.x == move.x && forward.z == move.z)
+            if (Forward().x == move.x && Forward().z == move.z)
             {
                 yield return StartCoroutine(WalkForward(new Vector3(tile.PosX * 2.5f * -1, transform.position.y, tile.PosZ *2.5f)));
             }
             else
             {
                 Debug.Log(move.z);
-                if (move.x  < 0 || move.z * forward.x * -1 < 0)
+                if (move.x  < 0 || move.z * Forward().x * -1 < 0)
                 {
                     yield return StartCoroutine(Turn("turnLeft", -1));
                 }
@@ -63,13 +68,9 @@ public class Movement : MonoBehaviour {
     {
         anim.SetBool("canWalk", true);
 
-        Vector3 forward = transform.forward;
-        forward.x = Mathf.Round(forward.x);
-        forward.z = Mathf.Round(forward.z);
-
         Vector3 currentPos = transform.position;
 
-        while(transform.position.x * forward.x < targetPos.x * forward.x  || transform.position.z * forward.z < targetPos.z * forward.z)
+        while(transform.position.x * Forward().x < targetPos.x * Forward().x  || transform.position.z * Forward().z < targetPos.z * Forward().z)
         {
             transform.Translate(0, 0, walkSpeed / 500);
             yield return new WaitForEndOfFrame();
