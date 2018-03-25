@@ -40,7 +40,6 @@ public class Movement : MonoBehaviour {
 
         foreach(LevelPiece tile in path)
         {
-            yield return new WaitForEndOfFrame();
 
             Vector3 move = new Vector3(tile.PosX * -1 - currentlyOn.PosX * -1, 0, tile.PosZ - currentlyOn.PosZ);
             if (Forward().x == move.x && Forward().z == move.z)
@@ -72,8 +71,8 @@ public class Movement : MonoBehaviour {
 
         while(transform.position.x * Forward().x < targetPos.x * Forward().x  || transform.position.z * Forward().z < targetPos.z * Forward().z)
         {
-            transform.Translate(0, 0, walkSpeed / 500);
-            yield return new WaitForEndOfFrame();
+            transform.Translate(0, 0, walkSpeed / 250);
+            yield return new WaitForFixedUpdate();
         }
 
         transform.position = targetPos;
@@ -81,16 +80,15 @@ public class Movement : MonoBehaviour {
 
     IEnumerator Turn(string animation, int direction)
     {
-        yield return new WaitForEndOfFrame();
         anim.SetBool(animation, true);
         float currentRotation = transform.rotation.eulerAngles.y;
         float targetRotation = transform.rotation.eulerAngles.y + 90;
         float actualRotation = transform.rotation.eulerAngles.y + 90 * direction;
         while (currentRotation <= targetRotation)
         {
-            transform.Rotate(0, 0.75f * direction, 0);
-            currentRotation += 0.75f;
-            yield return new WaitForEndOfFrame();
+            transform.Rotate(0, 1.75f * direction, 0);
+            currentRotation += 1.75f;
+            yield return new WaitForFixedUpdate();
             anim.SetBool(animation, false);
         }
 
