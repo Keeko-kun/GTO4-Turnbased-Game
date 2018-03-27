@@ -54,10 +54,13 @@ public class CursorAction : MonoBehaviour
     private void SelectMoveUnit()
     {
         unit = cursor.GetCurrentTile.Unit;
-        walkableTiles.Unit = unit;
-        walkableTiles.ColorTiles();
-        unit.GetComponentInChildren<Outline>().enabled = true;
-        mode = ActionMode.MoveUnit;
+        if (!unit.GetComponent<Movement>().walking)
+        {
+            walkableTiles.Unit = unit;
+            walkableTiles.ColorTiles();
+            unit.GetComponentInChildren<Outline>().enabled = true;
+            mode = ActionMode.MoveUnit;
+        }
     }
 
     private IEnumerator MoveUnit(int x, int z)
