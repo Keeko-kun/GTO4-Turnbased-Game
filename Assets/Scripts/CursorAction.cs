@@ -67,14 +67,15 @@ public class CursorAction : MonoBehaviour
         walkableTiles.DecolorTiles();
         copyOfUnit.GetComponentInChildren<Outline>().enabled = false;
 
-        if (cursor.GetCurrentTile.Piece.GetComponent<Outline>().color == (int)SelectColors.OutOfRange || copyOfUnit.GetComponent<Movement>().walking)
+        if (cursor.GetCurrentTile.Piece.GetComponent<Outline>().color == (int)SelectColors.OutOfRange ||
+            copyOfUnit.GetComponent<Movement>().walking)
         {
             ResetToSelectTile();
             yield break;
         }
 
-        cursor.map.SetUnit(x, z, copyOfUnit);
         cursor.map.SetUnit((int)copyOfUnit.GetComponent<Movement>().currentTile.PosX, (int)copyOfUnit.GetComponent<Movement>().currentTile.PosZ, null);
+        cursor.map.SetUnit(x, z, copyOfUnit);       
         yield return StartCoroutine(copyOfUnit.GetComponent<Movement>().StartMovement(cursor.GetCurrentTile));
 
     }
