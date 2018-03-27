@@ -105,6 +105,11 @@ public class Generate : MonoBehaviour {
         SetUnit(0, 0, u);
         u.GetComponent<Movement>().pathfinder = GetComponent<Pathfinding>();
         u.GetComponent<Movement>().currentTile = map[0, 0];
+
+        GameObject u2 = Instantiate(unit, new Vector3(unit.transform.position.x -2.5f, unit.transform.position.y, unit.transform.position.z), unit.transform.rotation);
+        SetUnit(1, 0, u2);
+        u2.GetComponent<Movement>().pathfinder = GetComponent<Pathfinding>();
+        u2.GetComponent<Movement>().currentTile = map[1, 0];
     }
 
     private Vector3 GetVector3(LevelPiece piece)

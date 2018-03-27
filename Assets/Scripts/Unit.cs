@@ -2,15 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit {
+public class Unit : MonoBehaviour {
 
-    public GameObject model;
-    public string name;
-
-    public Unit(GameObject model, string name)
-    {
-        this.model = model;
-        this.name = name;
-    }
+    public UnitSO stats;
 
 }

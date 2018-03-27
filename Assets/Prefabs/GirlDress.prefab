@@ -50,6 +50,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4237233907338498}
   - component: {fileID: 137812440031260350}
+  - component: {fileID: 114838140445653498}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -308,6 +309,7 @@ GameObject:
   - component: {fileID: 95711239278234192}
   - component: {fileID: 114746795925935166}
   - component: {fileID: 114021411873138152}
+  - component: {fileID: 114783032497621594}
   m_Layer: 0
   m_Name: GirlDress
   m_TagString: Untagged
@@ -970,7 +972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48b2ee01abf35bc4a97dcbf1eeaaf9b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 7.5
+  walkSpeed: 15
   pathfinder: {fileID: 0}
 --- !u!114 &114746795925935166
 MonoBehaviour:
@@ -983,6 +985,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baec330bc0d7b60438e59f4691f84a0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114783032497621594
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1506742271280996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24c9171c34e17364d9812ec3728971ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: e4c0114de0d7d314b9ec7e47a610cb3b, type: 2}
+--- !u!114 &114838140445653498
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1106939637293030}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 1
+  eraseRenderer: 0
+  originalLayer: 0
+  originalMaterials: []
 --- !u!137 &137812440031260350
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

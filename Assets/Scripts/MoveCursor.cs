@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using cakeslice;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -46,6 +47,14 @@ public class MoveCursor : MonoBehaviour {
         {
             canMove = true;
         }
+
+        if (currentTile.Unit != null)
+        {
+            if(currentTile.Unit.GetComponent<Movement>().currentTile == currentTile)
+                transform.position = new Vector3(transform.position.x, 6, transform.position.z);
+        }
+        else
+            transform.position = new Vector3(transform.position.x, 3, transform.position.z);
 
     }
 

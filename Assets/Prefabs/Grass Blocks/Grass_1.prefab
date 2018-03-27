@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23343255756546904}
   - component: {fileID: 95801834694105302}
   - component: {fileID: 114458105394975274}
+  - component: {fileID: 114565297371990192}
   m_Layer: 0
   m_Name: Grass_1
   m_TagString: Untagged
@@ -113,3 +114,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkable: 1
+--- !u!114 &114565297371990192
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1626207700913624}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 1
+  eraseRenderer: 0
+  originalLayer: 0
+  originalMaterials: []
