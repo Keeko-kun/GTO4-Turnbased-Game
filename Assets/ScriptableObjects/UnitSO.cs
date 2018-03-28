@@ -34,6 +34,7 @@ public class UnitSO : ScriptableObject
 
     private System.Random rnd = new System.Random();
 
+    public string Name { get { return unitName; } }
     public int Level { get { return level; } }
     public int Experience { get { return experience; } }
     public int Health { get { return health; } }
@@ -46,6 +47,11 @@ public class UnitSO : ScriptableObject
     public int Luck { get { return luck; } }
     public int Skill { get { return skill; } }
     public int Movement { get { return movement; } }
+
+    public void Initialize()
+    {
+        currentHealth = health;
+    }
 
     public void IncreaseExperience(int exp)
     {

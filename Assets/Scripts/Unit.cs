@@ -6,4 +6,9 @@ public class Unit : MonoBehaviour {
 
     public UnitSO stats;
 
+    private void Start()
+    {
+        stats.Initialize();
+    }
+
 }

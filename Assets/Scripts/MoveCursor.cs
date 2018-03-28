@@ -7,11 +7,14 @@ public class MoveCursor : MonoBehaviour {
 
     public Generate map;
     public Vector2Int startingTile;
+    public MoveSelectedAction chooseAction;
 
     private LevelPiece currentTile;
     private float tileSize = 2.5f;
 
     private bool canMove;
+
+    private CursorAction action;
 
     void Start () {
 
@@ -20,26 +23,39 @@ public class MoveCursor : MonoBehaviour {
         currentTile = map.GetMap()[startingTile.x, startingTile.y];
 
         transform.position = new Vector3(-currentTile.PosX * tileSize, transform.position.y, currentTile.PosZ * tileSize);
+
+        action = GetComponent<CursorAction>();
 	}
 	
 	void Update () {
-        if (canMove)
+        if (canMove && action.mode != ActionMode.SelectAction)
         {
             if (Input.GetAxisRaw("HorizontalL") == 1)
             {
-                Move(1, 0);                
+                MoveArrowOnMap(1, 0);                
             }
             else if (Input.GetAxisRaw("HorizontalL") == -1)
             {
-                Move(-1, 0);
+                MoveArrowOnMap(-1, 0);
             }
             else if (Input.GetAxisRaw("VerticalL") == 1)
             {
-                Move(0, 1);
+                MoveArrowOnMap(0, 1);
             }
             else if (Input.GetAxisRaw("VerticalL") == -1)
             {
-                Move(0, -1);
+                MoveArrowOnMap(0, -1);
+            }
+        }
+        else if (canMove && action.mode == ActionMode.SelectAction)
+        {
+            if (Input.GetAxisRaw("VerticalL") == 1)
+            {
+                MoveActionSelect(false);
+            }
+            else if (Input.GetAxisRaw("VerticalL") == -1)
+            {
+                MoveActionSelect(true);
             }
         }
 
@@ -58,7 +74,7 @@ public class MoveCursor : MonoBehaviour {
 
     }
 
-    void Move(int z, int x)
+    void MoveArrowOnMap(int z, int x)
     {
         canMove = false;
         Vector2Int tile = new Vector2Int((int)(currentTile.PosX - x), (int)(currentTile.PosZ + z));
@@ -74,6 +90,30 @@ public class MoveCursor : MonoBehaviour {
         {
             Debug.Log("Can't move");
             return;
+        }
+    }
+
+    void MoveActionSelect(bool up)
+    {
+        canMove = false;
+        switch (chooseAction.currentAction)
+        {
+            case CurrentAction.Move:
+                if (up) break;
+                else chooseAction.currentAction = CurrentAction.Attack;
+                break;
+            case CurrentAction.Attack:
+                if (up) chooseAction.currentAction = CurrentAction.Move;
+                else chooseAction.currentAction = CurrentAction.Back;
+                break;
+            case CurrentAction.Back:
+                if (up) chooseAction.currentAction = CurrentAction.Attack;
+                else chooseAction.currentAction = CurrentAction.EndTurn;
+                break;
+            case CurrentAction.EndTurn:
+                if (up) chooseAction.currentAction = CurrentAction.Back;
+                else break ;
+                break;
         }
     }
 

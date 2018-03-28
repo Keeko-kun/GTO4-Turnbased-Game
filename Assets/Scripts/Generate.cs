@@ -9,6 +9,7 @@ public class Generate : MonoBehaviour {
     public GameObject bridge;
     public int mapSize;
     public GameObject unit;
+    public GameObject unit2;
 
     private LevelPiece[,] map;
     private System.Random random = new System.Random();
@@ -106,7 +107,7 @@ public class Generate : MonoBehaviour {
         u.GetComponent<Movement>().pathfinder = GetComponent<Pathfinding>();
         u.GetComponent<Movement>().currentTile = map[0, 0];
 
-        GameObject u2 = Instantiate(unit, new Vector3(unit.transform.position.x -2.5f, unit.transform.position.y, unit.transform.position.z), unit.transform.rotation);
+        GameObject u2 = Instantiate(unit2, new Vector3(unit2.transform.position.x -2.5f, unit2.transform.position.y, unit2.transform.position.z), unit2.transform.rotation);
         SetUnit(1, 0, u2);
         u2.GetComponent<Movement>().pathfinder = GetComponent<Pathfinding>();
         u2.GetComponent<Movement>().currentTile = map[1, 0];

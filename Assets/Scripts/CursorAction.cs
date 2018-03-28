@@ -7,11 +7,14 @@ public class CursorAction : MonoBehaviour
 {
 
     public ActionMode mode;
+    public GameObject statsPanel;
 
     private bool performingAction;
     private MoveCursor cursor;
     private GameObject unit;
     private AllWalkableTiles walkableTiles;
+    private fadePanel unitStats;
+    private ChangeStats updatePanel;
 
     private void Start()
     {
@@ -20,6 +23,8 @@ public class CursorAction : MonoBehaviour
         cursor = GetComponent<MoveCursor>();
         walkableTiles = new AllWalkableTiles();
         walkableTiles.Map = cursor.map.GetMap();
+        unitStats = statsPanel.GetComponent<fadePanel>();
+        updatePanel = statsPanel.GetComponent<ChangeStats>();
     }
 
     // Update is called once per frame
@@ -37,7 +42,7 @@ public class CursorAction : MonoBehaviour
                     break;
             }
         }
-        else if(Input.GetKeyDown("joystick button 1"))
+        else if (Input.GetKeyDown("joystick button 1"))
         {
             ResetToSelectTile();
         }
@@ -47,20 +52,24 @@ public class CursorAction : MonoBehaviour
     {
         if (cursor.GetCurrentTile.Unit != null)
         {
-            SelectMoveUnit();
+            unit = cursor.GetCurrentTile.Unit;
+            if (!unit.GetComponent<Movement>().walking)
+            {
+                SelectMoveUnit(); //Temp
+                updatePanel.UpdateUI(unit.GetComponent<Unit>().stats);
+                unitStats.visible = true;
+            }
+
         }
     }
 
     private void SelectMoveUnit()
     {
-        unit = cursor.GetCurrentTile.Unit;
-        if (!unit.GetComponent<Movement>().walking)
-        {
-            walkableTiles.Unit = unit;
-            walkableTiles.ColorTiles();
-            unit.GetComponentInChildren<Outline>().enabled = true;
-            mode = ActionMode.MoveUnit;
-        }
+        walkableTiles.Unit = unit;
+        walkableTiles.ColorTiles();
+        unit.GetComponentInChildren<Outline>().enabled = true;
+        mode = ActionMode.MoveUnit;
+
     }
 
     private IEnumerator MoveUnit(int x, int z)
@@ -78,7 +87,7 @@ public class CursorAction : MonoBehaviour
         }
 
         cursor.map.SetUnit((int)copyOfUnit.GetComponent<Movement>().currentTile.PosX, (int)copyOfUnit.GetComponent<Movement>().currentTile.PosZ, null);
-        cursor.map.SetUnit(x, z, copyOfUnit);       
+        cursor.map.SetUnit(x, z, copyOfUnit);
         yield return StartCoroutine(copyOfUnit.GetComponent<Movement>().StartMovement(cursor.GetCurrentTile));
 
     }
@@ -96,14 +105,18 @@ public class CursorAction : MonoBehaviour
                 break;
         }
 
+        unitStats.visible = false;
         mode = ActionMode.SelectTile;
 
     }
+
+
 }
 
 
 public enum ActionMode
 {
     MoveUnit,
-    SelectTile
+    SelectTile,
+    SelectAction
 }
