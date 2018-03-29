@@ -40,6 +40,9 @@ public class CursorAction : MonoBehaviour
                 case ActionMode.SelectTile:
                     SelectTile();
                     break;
+                case ActionMode.SelectAction:
+                    SelectAction();
+                    break;
             }
         }
         else if (Input.GetKeyDown("joystick button 1"))
@@ -55,29 +58,43 @@ public class CursorAction : MonoBehaviour
             unit = cursor.GetCurrentTile.Unit;
             if (!unit.GetComponent<Movement>().walking)
             {
-                SelectMoveUnit(); //Temp
+                mode = ActionMode.SelectAction;
+                cursor.chooseAction.GetComponent<fadePanel>().visible = true;
                 updatePanel.UpdateUI(unit.GetComponent<Unit>().stats);
                 unitStats.visible = true;
             }
-
         }
     }
 
-    private void SelectMoveUnit()
+    private void SelectAction()
+    {
+        switch (cursor.chooseAction.currentAction)
+        {
+            case CurrentAction.Move:
+                SelectActionMoveUnit();
+                break;
+            case CurrentAction.Back:
+                ResetToSelectTile();
+                break;
+        }
+
+        unitStats.visible = false;
+        cursor.chooseAction.GetComponent<fadePanel>().visible = false;
+        cursor.chooseAction.currentAction = CurrentAction.Move;
+    }
+
+    private void SelectActionMoveUnit()
     {
         walkableTiles.Unit = unit;
         walkableTiles.ColorTiles();
         unit.GetComponentInChildren<Outline>().enabled = true;
         mode = ActionMode.MoveUnit;
-
     }
 
     private IEnumerator MoveUnit(int x, int z)
     {
         GameObject copyOfUnit = unit;
         ResetToSelectTile();
-        walkableTiles.DecolorTiles();
-        copyOfUnit.GetComponentInChildren<Outline>().enabled = false;
 
         if (cursor.GetCurrentTile.Piece.GetComponent<Outline>().color == (int)SelectColors.OutOfRange ||
             copyOfUnit.GetComponent<Movement>().walking)
@@ -105,14 +122,12 @@ public class CursorAction : MonoBehaviour
                 break;
         }
 
+        cursor.chooseAction.GetComponent<fadePanel>().visible = false;
+        cursor.chooseAction.currentAction = CurrentAction.Move;
         unitStats.visible = false;
         mode = ActionMode.SelectTile;
-
     }
-
-
 }
-
 
 public enum ActionMode
 {

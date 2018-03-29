@@ -31,14 +31,14 @@ public class fadePanel : MonoBehaviour {
 
         foreach (Text text in textObjects)
         {
-            text.color = new Color(255, 255, 255, alpha);
+            text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
         }
         foreach(Image image in imageObjects)
         {
-            image.color = new Color(255, 255, 255, alpha);
+            image.color = new Color(image.color.r, image.color.g, image.color.b, alpha);
         }
 
-        panel.GetComponent<Image>().color = new Color(255, 255, 255, alpha);
+        panel.GetComponent<Image>().color = new Color(panel.GetComponent<Image>().color.r, panel.GetComponent<Image>().color.g, panel.GetComponent<Image>().color.b, alpha);
     }
 
     // Update is called once per frame

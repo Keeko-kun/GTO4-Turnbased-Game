@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222372065460253608}
   - component: {fileID: 114036700826124506}
   m_Layer: 5
-  m_Name: ActionCursorMove
+  m_Name: ActionCursor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
