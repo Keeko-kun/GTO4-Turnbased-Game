@@ -82,6 +82,9 @@ public class CursorAction : MonoBehaviour
             case CurrentAction.Attack:
                 unit.GetComponent<Unit>().IncreaseExperience(100, this);
                 break;
+            case CurrentAction.EndTurn:
+                ResetToSelectTile();
+                break;
         }
 
         unitStats.visible = false;
