@@ -43,9 +43,12 @@ public class CursorAction : MonoBehaviour
                 case ActionMode.SelectAction:
                     SelectAction();
                     break;
+                case ActionMode.LevelUp:
+                    StartCoroutine(unit.GetComponent<Unit>().DismissLevelUp(this));
+                    break;
             }
         }
-        else if (Input.GetKeyDown("joystick button 1"))
+        else if (Input.GetKeyDown("joystick button 1") && mode != ActionMode.LevelUp)
         {
             ResetToSelectTile();
         }
@@ -60,7 +63,7 @@ public class CursorAction : MonoBehaviour
             {
                 mode = ActionMode.SelectAction;
                 cursor.chooseAction.GetComponent<fadePanel>().visible = true;
-                updatePanel.UpdateUI(unit.GetComponent<Unit>().stats);
+                updatePanel.UpdateUI(unit.GetComponent<Unit>());
                 unitStats.visible = true;
             }
         }
@@ -75,6 +78,9 @@ public class CursorAction : MonoBehaviour
                 break;
             case CurrentAction.Back:
                 ResetToSelectTile();
+                break;
+            case CurrentAction.Attack:
+                unit.GetComponent<Unit>().IncreaseExperience(100, this);
                 break;
         }
 
@@ -109,7 +115,7 @@ public class CursorAction : MonoBehaviour
 
     }
 
-    private void ResetToSelectTile()
+    public void ResetToSelectTile()
     {
         switch (mode)
         {
@@ -133,5 +139,6 @@ public enum ActionMode
 {
     MoveUnit,
     SelectTile,
-    SelectAction
+    SelectAction,
+    LevelUp
 }

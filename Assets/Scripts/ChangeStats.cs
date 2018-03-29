@@ -19,7 +19,7 @@ public class ChangeStats : MonoBehaviour {
     public Text skill;
     public Text movement;
 
-    public void UpdateUI(UnitSO unit)
+    public void UpdateUI(Unit unit)
     {
         unitName.text = unit.Name;
         level.text = unit.Level.ToString();

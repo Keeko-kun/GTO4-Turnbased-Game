@@ -11,16 +11,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46153375ffccea9499ca3aea1eda186f, type: 3}
   m_Name: Girl
   m_EditorClassIdentifier: 
-  unitName: Yoshino
   level: 1
   experience: 0
   health: 19
-  strength: 6
-  magic: 3
-  defense: 6
-  resistance: 3
-  speed: 8
-  luck: 6
+  strength: 8
+  magic: 7
+  defense: 8
+  resistance: 6
+  speed: 7
+  luck: 3
   skill: 7
   movement: 3
   growthPercentage: 320000003c0000002300000028000000140000002d0000001400000019000000

@@ -58,7 +58,7 @@ public class Generate : MonoBehaviour {
             map[i, startPosZ].Piece = g;
             map[i, startPosZ].Walkable = g.GetComponent<TerrainProperties>().walkable;
 
-            if (random.Next(0,100) >= 80 && !randomDirection && i != 0)
+            if (random.Next(0,100) >= 102 && !randomDirection && i != 0)
             {
                 randomDirection = true;
                 oldZ = startPosZ;
@@ -83,7 +83,7 @@ public class Generate : MonoBehaviour {
                 bridgeX += random.Next(0, 1) * 2 - 1;
             }
 
-            if (bridgeX > doubleX)
+            if (changedDirection && bridgeX > doubleX)
             {
                 bridgeZ = currentZ;
             }

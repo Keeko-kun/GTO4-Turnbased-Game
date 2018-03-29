@@ -28,7 +28,7 @@ public class MoveCursor : MonoBehaviour {
 	}
 	
 	void Update () {
-        if (canMove && action.mode != ActionMode.SelectAction)
+        if (canMove && action.mode != ActionMode.SelectAction && action.mode != ActionMode.LevelUp)
         {
             if (Input.GetAxisRaw("HorizontalL") == 1)
             {
