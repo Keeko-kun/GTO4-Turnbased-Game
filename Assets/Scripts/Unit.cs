@@ -8,6 +8,7 @@ public class Unit : MonoBehaviour {
     public UnitSO stats;
     public GameObject LevelUpDisplay;
     public GameObject levelUpTextObject;
+    public GameObject levelUpParticles;
 
     private string unitName;
     private int level;
@@ -141,6 +142,7 @@ public class Unit : MonoBehaviour {
         }
 
         levelUpScreen = Instantiate(LevelUpDisplay);
+        Instantiate(levelUpParticles, gameObject.transform);
 
         GameObject panel = levelUpScreen.GetComponent<Transform>().GetChild(0).GetChild(1).GetChild(0).gameObject;
         GameObject allStats = panel.transform.parent.gameObject;
