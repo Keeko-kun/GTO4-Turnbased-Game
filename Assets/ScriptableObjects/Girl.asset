@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: Girl
   m_EditorClassIdentifier: 
   unitName: Yoshino
+  _class: Knight
   level: 1
   experience: 0
   health: 19
@@ -23,4 +24,5 @@ MonoBehaviour:
   luck: 3
   skill: 7
   movement: 3
+  range: 1
   growthPercentage: 320000003c0000002300000028000000140000002d0000001400000019000000

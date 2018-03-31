@@ -9,8 +9,10 @@ public class Unit : MonoBehaviour {
     public GameObject LevelUpDisplay;
     public GameObject levelUpTextObject;
     public GameObject levelUpParticles;
+    public bool playerUnit;
 
     private string unitName;
+    private string _class;
     private int level;
     private int experience;
     private int health;
@@ -23,6 +25,7 @@ public class Unit : MonoBehaviour {
     private int luck;
     private int skill;
     private int movement;
+    private int range;
 
     private System.Random rnd = new System.Random();
 
@@ -31,6 +34,7 @@ public class Unit : MonoBehaviour {
     private GameObject levelUpScreen;
 
     public string Name { get { return unitName; } }
+    public string Class { get { return _class; } }
     public int Level { get { return level; } }
     public int Experience { get { return experience; } }
     public int Health { get { return health; } }
@@ -43,12 +47,14 @@ public class Unit : MonoBehaviour {
     public int Luck { get { return luck; } }
     public int Skill { get { return skill; } }
     public int Movement { get { return movement; } }
+    public int Range { get { return range; } }
 
     private void Start()
     {
         if (!hasBeenInitialized)
         {
             unitName = stats.Name;
+            _class = stats.Class;
             level = stats.Level;
             experience = stats.Experience;
             health = stats.Health;
@@ -61,6 +67,7 @@ public class Unit : MonoBehaviour {
             luck = stats.Luck;
             skill = stats.Skill;
             movement = stats.Movement;
+            range = stats.Range;
         }
 
         hasBeenInitialized = true;

@@ -979,6 +979,7 @@ MonoBehaviour:
     type: 2}
   levelUpParticles: {fileID: 1432486954702926, guid: 0a11dc73cab1cca4db75bbd81c6c8c0f,
     type: 2}
+  playerUnit: 1
 --- !u!114 &114142550186332142
 MonoBehaviour:
   m_ObjectHideFlags: 1

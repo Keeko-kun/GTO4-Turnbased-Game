@@ -8,6 +8,8 @@ public class UnitSO : ScriptableObject
     [SerializeField]
     private string unitName;
     [SerializeField]
+    private string _class;
+    [SerializeField]
     private int level;
     [SerializeField]
     private int experience;
@@ -31,11 +33,14 @@ public class UnitSO : ScriptableObject
     [SerializeField]
     private int movement;
     [SerializeField]
+    private int range;
+    [SerializeField]
     private int[] growthPercentage = new int[8];
 
     private System.Random rnd = new System.Random();
 
     public string Name { get { return unitName; } }
+    public string Class { get { return _class; } }
     public int Level { get { return level; } }
     public int Experience { get { return experience; } }
     public int Health { get { return health; } }
@@ -48,6 +53,7 @@ public class UnitSO : ScriptableObject
     public int Luck { get { return luck; } }
     public int Skill { get { return skill; } }
     public int Movement { get { return movement; } }
+    public int Range { get { return range; } }
     public int[] Growth { get { return growthPercentage; } }
 }
 

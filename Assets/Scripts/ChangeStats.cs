@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ChangeStats : MonoBehaviour {
 
     public Text unitName;
+    public Text _class;
     public Text level;
     public Text experience;
     public Text currentHP;
@@ -18,10 +19,12 @@ public class ChangeStats : MonoBehaviour {
     public Text luck;
     public Text skill;
     public Text movement;
+    public Text range;
 
     public void UpdateUI(Unit unit)
     {
         unitName.text = unit.Name;
+        _class.text = unit.Class;
         level.text = unit.Level.ToString();
         experience.text = unit.Experience.ToString();
         currentHP.text = unit.CurrentHealth.ToString();
@@ -34,5 +37,6 @@ public class ChangeStats : MonoBehaviour {
         luck.text = unit.Luck.ToString();
         skill.text = unit.Skill.ToString();
         movement.text = unit.Movement.ToString();
+        range.text = unit.Range.ToString();
     }
 }
