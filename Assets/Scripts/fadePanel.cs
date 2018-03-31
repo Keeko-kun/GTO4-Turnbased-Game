@@ -23,7 +23,7 @@ public class fadePanel : MonoBehaviour {
     {
         alpha += fadeDir * speed * Time.deltaTime;
         alpha = Mathf.Clamp01(alpha);
-
+        
         group.alpha = alpha;
     }
 
