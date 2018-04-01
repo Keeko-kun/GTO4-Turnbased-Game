@@ -8,28 +8,52 @@ public class CursorAction : MonoBehaviour
 
     public ActionMode mode;
     public GameObject statsPanel;
+    public GameObject buttonsPanel;
+    public GameObject predictionsPanel;
 
     private bool performingAction;
     private MoveCursor cursor;
     private GameObject unit;
+    private GameObject target;
     private AllWalkableTiles walkableTiles;
     private fadePanel unitStats;
+    private fadePanel buttonsFade;
+    private fadePanel predictionsFade;
     private ChangeStats updatePanel;
+    private ChangeWeapons updateWeapons;
+    private ChangePrediction updatePrediction;
+    private AttackSequence attackSequence;
+
+    public AllWalkableTiles WalkableTiles { get { return walkableTiles; } }
 
     private void Start()
     {
         mode = ActionMode.SelectTile;
         performingAction = false;
         cursor = GetComponent<MoveCursor>();
+        attackSequence = GetComponent<AttackSequence>();
         walkableTiles = new AllWalkableTiles();
         walkableTiles.Map = cursor.map.GetMap();
         unitStats = statsPanel.GetComponent<fadePanel>();
+        buttonsFade = buttonsPanel.GetComponent<fadePanel>();
+        predictionsFade = predictionsPanel.GetComponent<fadePanel>();
         updatePanel = statsPanel.GetComponent<ChangeStats>();
+        updateWeapons = buttonsPanel.GetComponent<ChangeWeapons>();
+        updatePrediction = predictionsPanel.GetComponent<ChangePrediction>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown("joystick button 1") && mode != ActionMode.LevelUp)
+        {
+            ResetToSelectTile();
+        }
+        if (mode == ActionMode.SelectWeapon)
+        {
+            SelectWeapon();
+            return;
+        }
         if (Input.GetKeyDown("joystick button 0"))
         {
             switch (mode)
@@ -46,11 +70,29 @@ public class CursorAction : MonoBehaviour
                 case ActionMode.LevelUp:
                     StartCoroutine(unit.GetComponent<Unit>().DismissLevelUp(this));
                     break;
+                case ActionMode.SelectTarget:
+                    SelectTarget();
+                    break;
             }
         }
-        else if (Input.GetKeyDown("joystick button 1") && mode != ActionMode.LevelUp)
+    }
+
+    private void SelectWeapon()
+    {
+        if (Input.GetKeyDown("joystick button 0") && updateWeapons.buttons[0].text != "")
         {
-            ResetToSelectTile();
+            unit.GetComponent<Unit>().Weapon = unit.GetComponent<Unit>().stats.Attacks[0];
+            SelectWeaponToAttackWith();
+        }
+        else if (Input.GetKeyDown("joystick button 2") && updateWeapons.buttons[1].text != "")
+        {
+            unit.GetComponent<Unit>().Weapon = unit.GetComponent<Unit>().stats.Attacks[1];
+            SelectWeaponToAttackWith();
+        }
+        else if (Input.GetKeyDown("joystick button 3") && updateWeapons.buttons[2].text != "")
+        {
+            unit.GetComponent<Unit>().Weapon = unit.GetComponent<Unit>().stats.Attacks[2];
+            SelectWeaponToAttackWith();
         }
     }
 
@@ -69,6 +111,23 @@ public class CursorAction : MonoBehaviour
         }
     }
 
+    private void SelectTarget()
+    {
+        if (cursor.GetCurrentTile.Piece.GetComponent<Outline>().color == (int)SelectColors.OutOfRange)
+        {
+            ResetToSelectTile();
+            return;
+        }
+        if (cursor.GetCurrentTile.Unit != null)
+        {
+            target = cursor.GetCurrentTile.Unit;
+            attackSequence.PredictOutcome(unit.GetComponent<Unit>(), target.GetComponent<Unit>(), unit.GetComponent<Unit>().Weapon, updatePrediction);
+            predictionsFade.visible = true;
+            unit.GetComponentInChildren<Outline>().enabled = false;
+            walkableTiles.DecolorTiles();
+        }
+    }
+
     private void SelectAction()
     {
         switch (cursor.chooseAction.currentAction)
@@ -80,7 +139,7 @@ public class CursorAction : MonoBehaviour
                 ResetToSelectTile();
                 break;
             case CurrentAction.Attack:
-                unit.GetComponent<Unit>().IncreaseExperience(100, this);
+                SelectActionAttack();
                 break;
             case CurrentAction.EndTurn:
                 ResetToSelectTile();
@@ -95,7 +154,7 @@ public class CursorAction : MonoBehaviour
     private void SelectActionMoveUnit()
     {
         walkableTiles.Unit = unit;
-        walkableTiles.ColorTiles();
+        walkableTiles.CalculateTiles(true);
         unit.GetComponentInChildren<Outline>().enabled = true;
         mode = ActionMode.MoveUnit;
     }
@@ -118,6 +177,22 @@ public class CursorAction : MonoBehaviour
 
     }
 
+    private void SelectActionAttack()
+    {
+        buttonsFade.visible = true;
+        updateWeapons.UpdatUI(unit.GetComponent<Unit>().stats.Attacks);
+        mode = ActionMode.SelectWeapon;
+    }
+
+    private void SelectWeaponToAttackWith()
+    {
+        mode = ActionMode.SelectTarget;
+        buttonsFade.visible = false;
+        unit.GetComponentInChildren<Outline>().enabled = true;
+        walkableTiles.Unit = unit;
+        walkableTiles.CalculateTiles(false);
+    }
+
     public void ResetToSelectTile()
     {
         switch (mode)
@@ -128,6 +203,14 @@ public class CursorAction : MonoBehaviour
                 unit = null;
                 break;
             case ActionMode.SelectTile:
+                break;
+            case ActionMode.SelectWeapon:
+                buttonsFade.visible = false;
+                break;
+            case ActionMode.SelectTarget:
+                unit.GetComponentInChildren<Outline>().enabled = false;
+                walkableTiles.DecolorTiles();
+                predictionsFade.visible = false;
                 break;
         }
 
@@ -143,5 +226,7 @@ public enum ActionMode
     MoveUnit,
     SelectTile,
     SelectAction,
-    LevelUp
+    LevelUp,
+    SelectWeapon,
+    SelectTarget
 }

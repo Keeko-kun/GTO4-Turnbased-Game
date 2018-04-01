@@ -28,6 +28,8 @@ public class Unit : MonoBehaviour {
     private int skill;
     private int movement;
 
+    private AttackMove weapon;
+
     private System.Random rnd = new System.Random();
 
     private bool hasBeenInitialized;
@@ -48,6 +50,7 @@ public class Unit : MonoBehaviour {
     public int Luck { get { return luck; } }
     public int Skill { get { return skill; } }
     public int Movement { get { return movement; } }
+    public AttackMove Weapon { get { return weapon; } set { weapon = value; } }
 
     private void Start()
     {
@@ -67,6 +70,8 @@ public class Unit : MonoBehaviour {
             luck = stats.Luck;
             skill = stats.Skill;
             movement = stats.Movement;
+
+            weapon = stats.Attacks[0];
         }
 
         hasBeenInitialized = true;

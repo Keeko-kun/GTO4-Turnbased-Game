@@ -3,37 +3,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackSequence : MonoBehaviour {
+public class AttackSequence : MonoBehaviour
+{
 
-    public void PredictOutcome(Unit attacker, Unit defender, AttackMove moveAttacker, AttackMove moveDefender)
+    public void PredictOutcome(Unit attacker, Unit defender, AttackMove moveAttacker, ChangePrediction updatePrediction)
     {
         int hpAttacker, hpDefender;
         int hitAttacker, hitDefender;
         int critAttacker, critDefender;
-        bool attackerTwice, defenderTwice;
+        bool attackerTwice, defenderTwice, canDefenderHit;
 
-        critAttacker = PredictCrit(attacker, moveAttacker, moveAttacker.range);
-        critDefender = PredictCrit(defender, moveDefender, moveAttacker.range);
-        hitAttacker = PredictHit(defender, moveAttacker, moveAttacker.range);
-        hitDefender = PredictHit(attacker, moveDefender, moveAttacker.range);
+        canDefenderHit = CanDefenderHit(defender);
+
+        AttackMove moveDefender = defender.Weapon;
+
+        critAttacker = PredictCrit(attacker, moveAttacker, true);
+        critDefender = PredictCrit(defender, moveDefender, canDefenderHit);
+        hitAttacker = PredictHit(defender, moveAttacker, true);
+        hitDefender = PredictHit(attacker, moveDefender, canDefenderHit);
         attackerTwice = PredictStrikeTwice(attacker, defender, hitAttacker);
         defenderTwice = PredictStrikeTwice(defender, attacker, hitDefender);
         hpDefender = PredictHP(attacker, defender, moveAttacker, hitAttacker, attackerTwice);
         hpAttacker = PredictHP(defender, attacker, moveDefender, hitDefender, defenderTwice);
+
+        updatePrediction.UpdateUI(attacker, defender, hpAttacker.ToString(), hpDefender.ToString(), hitAttacker.ToString(), hitDefender.ToString(), critAttacker.ToString(), critDefender.ToString(), attackerTwice, defenderTwice);
     }
 
-    private int PredictCrit(Unit unit, AttackMove move, int rangeToBeat)
+    private int PredictCrit(Unit unit, AttackMove move, bool canHit)
     {
-        if (move.range >= rangeToBeat)
+        if (canHit)
         {
             return (int)Math.Ceiling(unit.Skill + unit.Skill * move.crit);
         }
         return 0;
     }
 
-    private int PredictHit(Unit unit, AttackMove move, int rangeToBeat)
+    private int PredictHit(Unit unit, AttackMove move, bool canHit)
     {
-        if (move.range >= rangeToBeat)
+        if (canHit)
         {
             return 100 - (int)Math.Ceiling(unit.Luck + unit.Luck * move.hit);
         }
@@ -47,7 +54,7 @@ public class AttackSequence : MonoBehaviour {
             return false;
         }
 
-        if(defender.Speed + 5 <= attacker.Speed)
+        if (defender.Speed + 5 <= attacker.Speed)
         {
             return true;
         }
@@ -67,7 +74,7 @@ public class AttackSequence : MonoBehaviour {
         if (strikeTwice)
             iterator++;
 
-        for(int i = 0; i < iterator; i++)
+        for (int i = 0; i < iterator; i++)
         {
             int damage = 0;
 
@@ -96,6 +103,22 @@ public class AttackSequence : MonoBehaviour {
 
         return currentHealth;
     }
+
+    public bool CanDefenderHit(Unit defender)
+    {
+        AttackMove defenderWeapon = GetComponent<CursorAction>().WalkableTiles.DefenderCanHit(defender);
+
+        if (defenderWeapon != null)
+        {
+            defender.Weapon = defenderWeapon;
+            return true;
+        }
+
+        defender.Weapon = defender.stats.Attacks[0];
+
+        return false;
+    }
+
 }
 
 public class AttackTurn
