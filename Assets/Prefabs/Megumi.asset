@@ -33,7 +33,7 @@ MonoBehaviour:
     crit: 0.1
   - attackName: Fire Bolt
     type: 1
-    range: 2
+    range: 3
     might: 5
     hit: 0.4
     crit: 0.5

@@ -20,7 +20,7 @@ MonoBehaviour:
   magic: 0
   defense: 6
   resistance: 3
-  speed: 10
+  speed: 8
   luck: 0
   skill: 8
   movement: 3
@@ -37,4 +37,4 @@ MonoBehaviour:
     might: 8
     hit: 0.5
     crit: 0.4
-  growthPercentage: 3200000025000000000000001e0000000f000000280000000000000014000000
+  growthPercentage: 3200000025000000000000001e0000000f000000280000000500000014000000
