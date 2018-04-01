@@ -9,20 +9,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46153375ffccea9499ca3aea1eda186f, type: 3}
-  m_Name: Girl
+  m_Name: Yoshino
   m_EditorClassIdentifier: 
   unitName: Yoshino
-  _class: Knight
+  _class: Merchant
   level: 1
   experience: 0
-  health: 19
+  health: 20
   strength: 8
-  magic: 7
+  magic: 0
   defense: 8
-  resistance: 6
-  speed: 7
-  luck: 3
-  skill: 7
+  resistance: 4
+  speed: 5
+  luck: 4
+  skill: 6
   movement: 3
-  range: 1
-  growthPercentage: 320000003c0000002300000028000000140000002d0000001400000019000000
+  attacks:
+  - attackName: Steel Lance
+    type: 0
+    range: 1
+    might: 5
+    hit: 0.8
+    crit: 0
+  - attackName: Maple Bow
+    type: 0
+    range: 2
+    might: 4
+    hit: 0.7
+    crit: 0.15
+  growthPercentage: 230000001e0000000000000019000000050000000f0000001900000014000000

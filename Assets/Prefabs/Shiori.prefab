@@ -1053,13 +1053,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24c9171c34e17364d9812ec3728971ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: 39961578396a95843987fbf2b51842bb, type: 2}
+  stats: {fileID: 11400000, guid: 12bdae4b6bcaaee4eafeb0048029b378, type: 2}
   LevelUpDisplay: {fileID: 1989686165809084, guid: 9221719b9a695c547930405295790fc7,
     type: 2}
   levelUpTextObject: {fileID: 1326672118401108, guid: 1a599e9148daf3c4dabb86c4fbb3fe72,
     type: 2}
   levelUpParticles: {fileID: 1432486954702926, guid: 0a11dc73cab1cca4db75bbd81c6c8c0f,
     type: 2}
+  damageText: {fileID: 1801921894633940, guid: 81b271e301968c14f915fdc8b55ec2d0, type: 2}
   playerUnit: 1
 --- !u!114 &114551635748599490
 MonoBehaviour:
