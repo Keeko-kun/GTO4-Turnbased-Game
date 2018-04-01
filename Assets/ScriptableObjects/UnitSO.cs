@@ -32,8 +32,10 @@ public class UnitSO : ScriptableObject
     private int skill;
     [SerializeField]
     private int movement;
+
     [SerializeField]
-    private int range;
+    private List<AttackMove> attacks;
+
     [SerializeField]
     private int[] growthPercentage = new int[8];
 
@@ -53,12 +55,13 @@ public class UnitSO : ScriptableObject
     public int Luck { get { return luck; } }
     public int Skill { get { return skill; } }
     public int Movement { get { return movement; } }
-    public int Range { get { return range; } }
     public int[] Growth { get { return growthPercentage; } }
+    public List<AttackMove> Attacks { get { return attacks; } }
 }
 
 public enum AttackType
 {
     Physical,
-    Magic
+    Magic,
+    Heal
 }

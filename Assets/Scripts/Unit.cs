@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ public class Unit : MonoBehaviour {
     public GameObject LevelUpDisplay;
     public GameObject levelUpTextObject;
     public GameObject levelUpParticles;
+    public GameObject damageText;
     public bool playerUnit;
 
     private string unitName;
@@ -25,7 +27,6 @@ public class Unit : MonoBehaviour {
     private int luck;
     private int skill;
     private int movement;
-    private int range;
 
     private System.Random rnd = new System.Random();
 
@@ -47,7 +48,6 @@ public class Unit : MonoBehaviour {
     public int Luck { get { return luck; } }
     public int Skill { get { return skill; } }
     public int Movement { get { return movement; } }
-    public int Range { get { return range; } }
 
     private void Start()
     {
@@ -67,7 +67,6 @@ public class Unit : MonoBehaviour {
             luck = stats.Luck;
             skill = stats.Skill;
             movement = stats.Movement;
-            range = stats.Range;
         }
 
         hasBeenInitialized = true;
@@ -89,65 +88,6 @@ public class Unit : MonoBehaviour {
     {
         level++;
 
-        bool[] determineGrowth = new bool[8];
-
-        for (int i = 0; i < stats.Growth.Length; i++)
-        {
-            int randomNumber = rnd.Next(0, 100);
-            if (randomNumber <= stats.Growth[i])
-            {
-                determineGrowth[i] = true;
-            }
-            else
-            {
-                determineGrowth[i] = false;
-            }
-        }
-
-        List<string> grownStats = new List<string>();
-
-        if (determineGrowth[0])
-        {
-            health++;
-            currentHealth++;
-            grownStats.Add("HP");
-        }
-        if (determineGrowth[1])
-        {
-            strength++;
-            grownStats.Add("Strength");
-        }
-        if (determineGrowth[2])
-        {
-            magic++;
-            grownStats.Add("Magic");
-        }
-        if (determineGrowth[3])
-        {
-            defense++;
-            grownStats.Add("Defense");
-        }
-        if (determineGrowth[4])
-        {
-            resistance++;
-            grownStats.Add("Resistance");
-        }
-        if (determineGrowth[5])
-        {
-            speed++;
-            grownStats.Add("Speed");
-        }
-        if (determineGrowth[6])
-        {
-            luck++;
-            grownStats.Add("Luck");
-        }
-        if (determineGrowth[7])
-        {
-            skill++;
-            grownStats.Add("Skill");
-        }
-
         levelUpScreen = Instantiate(LevelUpDisplay);
         Instantiate(levelUpParticles, gameObject.transform);
 
@@ -156,6 +96,8 @@ public class Unit : MonoBehaviour {
 
         GameObject unitNameT = Instantiate(levelUpTextObject, allStats.transform);
         unitNameT.GetComponent<Text>().text = unitName + " - Lv " + level;
+
+        List<string> grownStats = GrowStats();
 
         foreach (string stat in grownStats)
         {
@@ -172,11 +114,11 @@ public class Unit : MonoBehaviour {
         cursor.ResetToSelectTile();
     }
 
-    public void TakeDamage(AttackType type, int opponentAttack)
+    public void TakeDamage(AttackMove attack, int opponentAttack)
     {
         int damage = 0;
 
-        switch (type)
+        switch (attack.type)
         {
             case AttackType.Physical:
                 damage = opponentAttack - defense;
@@ -191,30 +133,111 @@ public class Unit : MonoBehaviour {
             damage = 1;
         }
 
-        currentHealth--;
+        int randomNumber = rnd.Next(1, 100);
+        if (randomNumber <= Math.Ceiling(luck + (luck * attack.hit * 0.75f)))
+        {
+            damage = 0;
+        }
+
+        currentHealth -= damage;
+
+        GameObject canvas = GetComponentInChildren<Canvas>().gameObject;
+        GameObject text = Instantiate(damageText, canvas.transform);
+
+        text.GetComponent<SetDamagePosition>().Set(transform.position);
+        text.GetComponentInChildren<Text>().text = damage.ToString();
+
+        //Determine if dead
     }
 
-    public void PerformAttack(Unit opponent, AttackType type)
+    public void PerformAttack(Unit opponent, AttackMove attack)
     {
         int damage = 0;
 
-        switch (type)
+        switch (attack.type)
         {
             case AttackType.Physical:
-                damage = strength;
+                damage = strength + attack.might;
                 break;
             case AttackType.Magic:
-                damage = magic;
+                damage = magic + attack.might;
                 break;
         }
 
         int randomNumber = rnd.Next(0, 100);
-        if (randomNumber <= skill)
+        if (randomNumber <= Math.Ceiling(skill + (skill * attack.crit)))
         {
             damage = damage * 2;
         }
 
-        opponent.TakeDamage(type, damage);
+        opponent.TakeDamage(attack, damage);
+    }
+
+    public List<string> GrowStats()
+    {
+        List<string> grownStats = new List<string>();
+
+        while (grownStats.Count == 0)
+        {
+            bool[] determineGrowth = new bool[8];
+
+            for (int i = 0; i < stats.Growth.Length; i++)
+            {
+                int randomNumber = rnd.Next(0, 100);
+                if (randomNumber <= stats.Growth[i])
+                {
+                    determineGrowth[i] = true;
+                }
+                else
+                {
+                    determineGrowth[i] = false;
+                }
+            }
+
+            if (determineGrowth[0])
+            {
+                health++;
+                currentHealth++;
+                grownStats.Add("HP");
+            }
+            if (determineGrowth[1])
+            {
+                strength++;
+                grownStats.Add("Strength");
+            }
+            if (determineGrowth[2])
+            {
+                magic++;
+                grownStats.Add("Magic");
+            }
+            if (determineGrowth[3])
+            {
+                defense++;
+                grownStats.Add("Defense");
+            }
+            if (determineGrowth[4])
+            {
+                resistance++;
+                grownStats.Add("Resistance");
+            }
+            if (determineGrowth[5])
+            {
+                speed++;
+                grownStats.Add("Speed");
+            }
+            if (determineGrowth[6])
+            {
+                luck++;
+                grownStats.Add("Luck");
+            }
+            if (determineGrowth[7])
+            {
+                skill++;
+                grownStats.Add("Skill");
+            }
+        }
+
+        return grownStats;
     }
 
 }

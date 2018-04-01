@@ -19,7 +19,6 @@ public class ChangeStats : MonoBehaviour {
     public Text luck;
     public Text skill;
     public Text movement;
-    public Text range;
 
     public void UpdateUI(Unit unit)
     {
@@ -37,6 +36,5 @@ public class ChangeStats : MonoBehaviour {
         luck.text = unit.Luck.ToString();
         skill.text = unit.Skill.ToString();
         movement.text = unit.Movement.ToString();
-        range.text = unit.Range.ToString();
     }
 }
