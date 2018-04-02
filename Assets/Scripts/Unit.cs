@@ -119,63 +119,25 @@ public class Unit : MonoBehaviour {
         cursor.ResetToSelectTile();
     }
 
-    public void TakeDamage(AttackMove attack, int opponentAttack)
+    public void TakeDamage(int damage, bool crit)
     {
-        int damage = 0;
-
-        switch (attack.type)
-        {
-            case AttackType.Physical:
-                damage = opponentAttack - defense;
-                break;
-            case AttackType.Magic:
-                damage = opponentAttack - resistance;
-                break;
-        }
-
-        if (damage <= 0)
-        {
-            damage = 1;
-        }
-
-        int randomNumber = rnd.Next(1, 100);
-        if (randomNumber <= Math.Ceiling(luck + (luck * attack.hit * 0.75f)))
-        {
-            damage = 0;
-        }
-
         currentHealth -= damage;
+
+        if (currentHealth < 0) // This means dead, could use this
+        {
+            currentHealth = 0;
+        }
 
         GameObject canvas = GetComponentInChildren<Canvas>().gameObject;
         GameObject text = Instantiate(damageText, canvas.transform);
 
         text.GetComponent<SetDamagePosition>().Set(transform.position);
-        text.GetComponentInChildren<Text>().text = damage.ToString();
+        if (crit) text.GetComponentInChildren<Text>().text = "Crit!" + damage.ToString();
+        else if (damage == 0) text.GetComponentInChildren<Text>().text = "Miss";
+        else text.GetComponentInChildren<Text>().text = damage.ToString();
+
 
         //Determine if dead
-    }
-
-    public void PerformAttack(Unit opponent, AttackMove attack)
-    {
-        int damage = 0;
-
-        switch (attack.type)
-        {
-            case AttackType.Physical:
-                damage = strength + attack.might;
-                break;
-            case AttackType.Magic:
-                damage = magic + attack.might;
-                break;
-        }
-
-        int randomNumber = rnd.Next(0, 100);
-        if (randomNumber <= Math.Ceiling(skill + (skill * attack.crit)))
-        {
-            damage = damage * 2;
-        }
-
-        opponent.TakeDamage(attack, damage);
     }
 
     public List<string> GrowStats()

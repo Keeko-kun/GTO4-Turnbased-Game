@@ -23,8 +23,12 @@ public class AttackSequence : MonoBehaviour
         hitDefender = PredictHit(attacker, moveDefender, canDefenderHit);
         attackerTwice = PredictStrikeTwice(attacker, defender, hitAttacker);
         defenderTwice = PredictStrikeTwice(defender, attacker, hitDefender);
-        hpDefender = PredictHP(attacker, defender, moveAttacker, hitAttacker, attackerTwice);
-        hpAttacker = PredictHP(defender, attacker, moveDefender, hitDefender, defenderTwice);
+        hpDefender = defender.CurrentHealth;
+        hpAttacker = attacker.CurrentHealth;
+        hpDefender = PredictHP(attacker, defender, moveAttacker, hitAttacker, hpDefender);
+        if (hpDefender > 0) hpAttacker = PredictHP(defender, attacker, moveDefender, hitDefender, hpAttacker);
+        if (attackerTwice && hpDefender > 0 && hpAttacker > 0) hpDefender = PredictHP(attacker, defender, moveAttacker, hitAttacker, hpDefender);
+        if (defenderTwice && hpDefender > 0 && hpAttacker > 0) hpAttacker = PredictHP(defender, attacker, moveDefender, hitDefender, hpAttacker);
 
         updatePrediction.UpdateUI(attacker, defender, hpAttacker.ToString(), hpDefender.ToString(), hitAttacker.ToString(), hitDefender.ToString(), critAttacker.ToString(), critDefender.ToString(), attackerTwice, defenderTwice);
     }
@@ -61,40 +65,35 @@ public class AttackSequence : MonoBehaviour
         return false;
     }
 
-    private int PredictHP(Unit attacker, Unit defender, AttackMove move, int hit, bool strikeTwice)
+    private int PredictHP(Unit attacker, Unit defender, AttackMove move, int hit, int health)
     {
-        int currentHealth = defender.CurrentHealth;
+        int currentHealth = health;
 
         if (hit == 0)
         {
             return currentHealth;
         }
 
-        int iterator = 1;
-        if (strikeTwice)
-            iterator++;
 
-        for (int i = 0; i < iterator; i++)
+        int damage = 0;
+
+        switch (move.type)
         {
-            int damage = 0;
-
-            switch (move.type)
-            {
-                case AttackType.Physical:
-                    damage = (attacker.Strength + move.might) - defender.Defense;
-                    break;
-                case AttackType.Magic:
-                    damage = (attacker.Magic + move.might) - defender.Resistance;
-                    break;
-            }
-
-            if (damage <= 0)
-            {
-                damage = 1;
-            }
-
-            currentHealth -= damage;
+            case AttackType.Physical:
+                damage = (attacker.Strength + move.might) - defender.Defense;
+                break;
+            case AttackType.Magic:
+                damage = (attacker.Magic + move.might) - defender.Resistance;
+                break;
         }
+
+        if (damage <= 0)
+        {
+            damage = 1;
+        }
+
+        currentHealth -= damage;
+
 
         if (currentHealth < 0)
         {
@@ -119,18 +118,86 @@ public class AttackSequence : MonoBehaviour
         return false;
     }
 
+    public IEnumerator ExecuteBattle(List<AttackTurn> turns)
+    {
+
+        foreach (AttackTurn turn in turns)
+        {
+            turn.Attacker.GetComponent<Animator>().SetBool("attack", true);
+            yield return new WaitForFixedUpdate();
+            turn.Attacker.GetComponent<Animator>().SetBool("attack", false);
+
+            for (int i = 0; i < 40; i++)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+
+            turn.Defender.TakeDamage(turn.Damage, turn.Crit);
+
+            if (turn.Defender.CurrentHealth <= 0)
+            {
+                break;
+            }
+
+            yield return new WaitForSeconds(1.5f);
+        }
+
+        yield break;
+    }
 }
 
 public class AttackTurn
 {
-    public Unit attacker;
-    public Unit defender;
-    public AttackMove move;
+    public Unit Attacker { get; private set; }
+    public Unit Defender { get; private set; }
+    public int Damage { get; private set; }
+    public bool Crit { get; private set; }
 
-    public AttackTurn(Unit attacker, Unit defender, AttackMove move)
+    public AttackTurn(Unit attacker, Unit defender)
     {
-        this.attacker = attacker;
-        this.defender = defender;
-        this.move = move;
+        Attacker = attacker;
+        Defender = defender;
+
+        int damage = 0;
+
+        switch (attacker.Weapon.type)
+        {
+            case AttackType.Physical:
+                damage = attacker.Strength + attacker.Weapon.might;
+                break;
+            case AttackType.Magic:
+                damage = attacker.Magic + attacker.Weapon.might;
+                break;
+        }
+
+        switch (attacker.Weapon.type)
+        {
+            case AttackType.Physical:
+                damage = damage - defender.Defense;
+                break;
+            case AttackType.Magic:
+                damage = damage - defender.Resistance;
+                break;
+        }
+
+        if (damage <= 0)
+        {
+            damage = 1;
+        }
+
+        int randomNumber = UnityEngine.Random.Range(1, 100);
+        if (randomNumber <= Math.Ceiling(attacker.Skill + (attacker.Skill * attacker.Weapon.crit)))
+        {
+            damage = damage * 2;
+        }
+
+        randomNumber = UnityEngine.Random.Range(1, 100);
+        if (randomNumber <= Math.Ceiling(defender.Luck + (defender.Luck * attacker.Weapon.hit * 0.75f)))
+        {
+            damage = 0;
+        }
+
+        Damage = damage;
+        Debug.Log(Damage);
     }
 }

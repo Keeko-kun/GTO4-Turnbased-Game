@@ -73,6 +73,9 @@ public class CursorAction : MonoBehaviour
                 case ActionMode.SelectTarget:
                     SelectTarget();
                     break;
+                case ActionMode.ConfirmBattle:
+                    StartCoroutine(ConfirmBattle());
+                    break;
             }
         }
     }
@@ -120,12 +123,28 @@ public class CursorAction : MonoBehaviour
         }
         if (cursor.GetCurrentTile.Unit != null)
         {
+            mode = ActionMode.ConfirmBattle;
             target = cursor.GetCurrentTile.Unit;
             attackSequence.PredictOutcome(unit.GetComponent<Unit>(), target.GetComponent<Unit>(), unit.GetComponent<Unit>().Weapon, updatePrediction);
             predictionsFade.visible = true;
             unit.GetComponentInChildren<Outline>().enabled = false;
             walkableTiles.DecolorTiles();
         }
+    }
+
+    private IEnumerator ConfirmBattle() //Coroutine?
+    {
+        List<AttackTurn> turns = new List<AttackTurn>();
+        if (int.Parse(updatePrediction.hitAttacker.text) > 0) turns.Add(new AttackTurn(unit.GetComponent<Unit>(), target.GetComponent<Unit>()));
+        if (int.Parse(updatePrediction.hitDefender.text) > 0) turns.Add(new AttackTurn(target.GetComponent<Unit>(), unit.GetComponent<Unit>()));
+        if (updatePrediction.twiceAttacker.enabled) turns.Add(new AttackTurn(unit.GetComponent<Unit>(), target.GetComponent<Unit>()));
+        if (updatePrediction.twiceDefender.enabled) turns.Add(new AttackTurn(target.GetComponent<Unit>(), unit.GetComponent<Unit>()));
+
+        predictionsFade.visible = false;
+
+        yield return StartCoroutine(attackSequence.ExecuteBattle(turns));
+
+        ResetToSelectTile();
     }
 
     private void SelectAction()
@@ -212,6 +231,8 @@ public class CursorAction : MonoBehaviour
                 walkableTiles.DecolorTiles();
                 predictionsFade.visible = false;
                 break;
+            default:
+                break;
         }
 
         cursor.chooseAction.GetComponent<fadePanel>().visible = false;
@@ -228,5 +249,6 @@ public enum ActionMode
     SelectAction,
     LevelUp,
     SelectWeapon,
-    SelectTarget
+    SelectTarget,
+    ConfirmBattle
 }
