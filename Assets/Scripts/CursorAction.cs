@@ -134,6 +134,7 @@ public class CursorAction : MonoBehaviour
 
     private IEnumerator ConfirmBattle() //Coroutine?
     {
+        mode = ActionMode.WaitForBattle;
         List<AttackTurn> turns = new List<AttackTurn>();
         if (int.Parse(updatePrediction.hitAttacker.text) > 0) turns.Add(new AttackTurn(unit.GetComponent<Unit>(), target.GetComponent<Unit>()));
         if (int.Parse(updatePrediction.hitDefender.text) > 0) turns.Add(new AttackTurn(target.GetComponent<Unit>(), unit.GetComponent<Unit>()));
@@ -231,6 +232,11 @@ public class CursorAction : MonoBehaviour
                 walkableTiles.DecolorTiles();
                 predictionsFade.visible = false;
                 break;
+            case ActionMode.ConfirmBattle:
+                predictionsFade.visible = false;
+                break;
+            case ActionMode.LevelUp:
+                return;
             default:
                 break;
         }
@@ -250,5 +256,6 @@ public enum ActionMode
     LevelUp,
     SelectWeapon,
     SelectTarget,
-    ConfirmBattle
+    ConfirmBattle,
+    WaitForBattle
 }

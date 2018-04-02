@@ -28,7 +28,7 @@ public class MoveCursor : MonoBehaviour {
 	}
 	
 	void Update () {
-        if (canMove && action.mode != ActionMode.SelectAction && action.mode != ActionMode.LevelUp && action.mode != ActionMode.SelectWeapon && action.mode != ActionMode.ConfirmBattle)
+        if (canMove && action.mode != ActionMode.SelectAction && action.mode != ActionMode.LevelUp && action.mode != ActionMode.SelectWeapon && action.mode != ActionMode.ConfirmBattle && action.mode != ActionMode.WaitForBattle)
         {
             if (Input.GetAxisRaw("HorizontalL") == 1)
             {

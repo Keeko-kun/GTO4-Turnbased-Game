@@ -136,6 +136,7 @@ public class AttackSequence : MonoBehaviour
 
             if (turn.Defender.CurrentHealth <= 0)
             {
+                turn.Attacker.IncreaseExperience(100, GetComponent<CursorAction>());
                 break;
             }
 

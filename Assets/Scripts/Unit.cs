@@ -116,6 +116,7 @@ public class Unit : MonoBehaviour {
         levelUpScreen.transform.GetChild(0).GetComponent<Animator>().SetBool("dismissed", true);
         yield return new WaitForSeconds(1.1f);
         Destroy(levelUpScreen);
+        cursor.mode = ActionMode.SelectTile;
         cursor.ResetToSelectTile();
     }
 
@@ -138,6 +139,11 @@ public class Unit : MonoBehaviour {
 
 
         //Determine if dead
+    }
+
+    private IEnumerator InitiateDeath()
+    {
+        yield return new WaitForFixedUpdate();
     }
 
     public List<string> GrowStats()

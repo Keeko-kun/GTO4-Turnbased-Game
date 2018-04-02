@@ -20,7 +20,7 @@ MonoBehaviour:
   magic: 0
   defense: 6
   resistance: 3
-  speed: 8
+  speed: 10
   luck: 0
   skill: 8
   movement: 3
