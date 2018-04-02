@@ -192,6 +192,7 @@ public class AttackTurn
         int randomNumber = UnityEngine.Random.Range(1, 100);
         if (randomNumber <= Math.Ceiling(attacker.Skill + (attacker.Skill * attacker.Weapon.crit)))
         {
+            Crit = true;
             damage = damage * 2;
         }
 
