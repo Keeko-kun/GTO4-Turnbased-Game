@@ -12,6 +12,7 @@ public class Unit : MonoBehaviour {
     public GameObject levelUpParticles;
     public GameObject damageText;
     public bool playerUnit;
+    public GameObject[] deathParticles = new GameObject[2];
 
     private string unitName;
     private string _class;
@@ -124,10 +125,7 @@ public class Unit : MonoBehaviour {
     {
         currentHealth -= damage;
 
-        if (currentHealth < 0) // This means dead, could use this
-        {
-            currentHealth = 0;
-        }
+
 
         GameObject canvas = GetComponentInChildren<Canvas>().gameObject;
         GameObject text = Instantiate(damageText, canvas.transform);
@@ -138,12 +136,31 @@ public class Unit : MonoBehaviour {
         else text.GetComponentInChildren<Text>().text = damage.ToString();
 
 
-        //Determine if dead
+        if (currentHealth < 0) // This means dead
+        {
+            currentHealth = 0;
+            StartCoroutine(InitiateDeath());
+        }
     }
 
     private IEnumerator InitiateDeath()
     {
-        yield return new WaitForFixedUpdate();
+        GetComponent<Movement>().currentTile.Unit = null;
+
+        GetComponent<Animator>().SetBool("death", true);
+
+        yield return new WaitForSecondsRealtime(2);
+        GameObject smoke = Instantiate(deathParticles[0], transform);
+
+        yield return new WaitForSecondsRealtime(.2f);
+        GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
+
+        var sh = deathParticles[1].GetComponent<ParticleSystem>().shape;
+        sh.skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        GameObject red = Instantiate(deathParticles[1], transform);
+
+        yield return new WaitForSecondsRealtime(4.5f);
+        Destroy(gameObject);
     }
 
     public List<string> GrowStats()

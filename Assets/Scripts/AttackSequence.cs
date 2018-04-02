@@ -118,7 +118,7 @@ public class AttackSequence : MonoBehaviour
         return false;
     }
 
-    public IEnumerator ExecuteBattle(List<AttackTurn> turns)
+    public IEnumerator ExecuteBattle(List<AttackTurn> turns, Unit unit)
     {
 
         foreach (AttackTurn turn in turns)
@@ -136,7 +136,10 @@ public class AttackSequence : MonoBehaviour
 
             if (turn.Defender.CurrentHealth <= 0)
             {
-                turn.Attacker.IncreaseExperience(100, GetComponent<CursorAction>());
+                if (turn.Attacker == unit && turn.Attacker.playerUnit)
+                {
+                    turn.Attacker.IncreaseExperience(100, GetComponent<CursorAction>());
+                }               
                 break;
             }
 

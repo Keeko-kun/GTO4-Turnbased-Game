@@ -143,7 +143,7 @@ public class CursorAction : MonoBehaviour
 
         predictionsFade.visible = false;
 
-        yield return StartCoroutine(attackSequence.ExecuteBattle(turns));
+        yield return StartCoroutine(attackSequence.ExecuteBattle(turns, unit.GetComponent<Unit>()));
 
         ResetToSelectTile();
     }
