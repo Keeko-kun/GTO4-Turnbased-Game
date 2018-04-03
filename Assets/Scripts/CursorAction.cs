@@ -76,6 +76,9 @@ public class CursorAction : MonoBehaviour
                 case ActionMode.ConfirmBattle:
                     StartCoroutine(ConfirmBattle());
                     break;
+                case ActionMode.ViewEnemyStats:
+                    ResetToSelectTile();
+                    break;
             }
         }
     }
@@ -103,13 +106,22 @@ public class CursorAction : MonoBehaviour
     {
         if (cursor.GetCurrentTile.Unit != null)
         {
-            unit = cursor.GetCurrentTile.Unit;
-            if (!unit.GetComponent<Movement>().walking)
+            if (!cursor.GetCurrentTile.Unit.GetComponent<Unit>().playerUnit)
             {
-                mode = ActionMode.SelectAction;
-                cursor.chooseAction.GetComponent<fadePanel>().visible = true;
-                updatePanel.UpdateUI(unit.GetComponent<Unit>());
+                mode = ActionMode.ViewEnemyStats;
+                updatePanel.UpdateUI(cursor.GetCurrentTile.Unit.GetComponent<Unit>());
                 unitStats.visible = true;
+            }
+            else
+            {
+                unit = cursor.GetCurrentTile.Unit;
+                if (!unit.GetComponent<Movement>().walking)
+                {
+                    mode = ActionMode.SelectAction;
+                    cursor.chooseAction.GetComponent<fadePanel>().visible = true;
+                    updatePanel.UpdateUI(unit.GetComponent<Unit>());
+                    unitStats.visible = true;
+                }
             }
         }
     }
@@ -257,5 +269,6 @@ public enum ActionMode
     SelectWeapon,
     SelectTarget,
     ConfirmBattle,
-    WaitForBattle
+    WaitForBattle,
+    ViewEnemyStats
 }

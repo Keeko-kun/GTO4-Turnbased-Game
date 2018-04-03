@@ -76,6 +76,11 @@ public class MoveCursor : MonoBehaviour {
 
     void MoveArrowOnMap(int z, int x)
     {
+        if (action.mode == ActionMode.ViewEnemyStats)
+        {
+            action.ResetToSelectTile();
+        }
+
         canMove = false;
         Vector2Int tile = new Vector2Int((int)(currentTile.PosX - x), (int)(currentTile.PosZ + z));
 

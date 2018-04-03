@@ -137,7 +137,7 @@ public class Unit : MonoBehaviour {
         else text.GetComponentInChildren<Text>().text = damage.ToString();
 
 
-        if (currentHealth < 0) // This means dead
+        if (currentHealth <= 0) // This means dead
         {
             currentHealth = 0;
             StartCoroutine(InitiateDeath());

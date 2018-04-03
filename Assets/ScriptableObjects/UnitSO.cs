@@ -32,6 +32,8 @@ public class UnitSO : ScriptableObject
     private int skill;
     [SerializeField]
     private int movement;
+    [SerializeField]
+    private int points;
 
     [SerializeField]
     private List<AttackMove> attacks;
@@ -55,6 +57,7 @@ public class UnitSO : ScriptableObject
     public int Luck { get { return luck; } }
     public int Skill { get { return skill; } }
     public int Movement { get { return movement; } }
+    public int Points { get { return points; } }
     public int[] Growth { get { return growthPercentage; } }
     public List<AttackMove> Attacks { get { return attacks; } }
 }
