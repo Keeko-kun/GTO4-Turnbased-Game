@@ -84,7 +84,7 @@ public class Unit : MonoBehaviour {
 
         if (experience >= 100)
         {
-            cursor.mode = ActionMode.LevelUp;
+            if (playerUnit) cursor.mode = ActionMode.LevelUp;
             experience -= 100;
             IncreaseLevel();
         }
@@ -94,22 +94,27 @@ public class Unit : MonoBehaviour {
     {
         level++;
 
-        levelUpScreen = Instantiate(LevelUpDisplay);
-        Instantiate(levelUpParticles, gameObject.transform);
-
-        GameObject panel = levelUpScreen.GetComponent<Transform>().GetChild(0).GetChild(1).GetChild(0).gameObject;
-        GameObject allStats = panel.transform.parent.gameObject;
-
-        GameObject unitNameT = Instantiate(levelUpTextObject, allStats.transform);
-        unitNameT.GetComponent<Text>().text = unitName + " - Lv " + level;
-
         List<string> grownStats = GrowStats();
 
-        foreach (string stat in grownStats)
+        if (playerUnit)
         {
-            GameObject text = Instantiate(levelUpTextObject, panel.transform);
-            text.GetComponent<Text>().text = stat + " + 1";
+            levelUpScreen = Instantiate(LevelUpDisplay);
+            Instantiate(levelUpParticles, gameObject.transform);
+
+            GameObject panel = levelUpScreen.GetComponent<Transform>().GetChild(0).GetChild(1).GetChild(0).gameObject;
+            GameObject allStats = panel.transform.parent.gameObject;
+
+            GameObject unitNameT = Instantiate(levelUpTextObject, allStats.transform);
+            unitNameT.GetComponent<Text>().text = unitName + " - Lv " + level;
+
+            foreach (string stat in grownStats)
+            {
+                GameObject text = Instantiate(levelUpTextObject, panel.transform);
+                text.GetComponent<Text>().text = stat + " + 1";
+            }
         }
+
+
     }
 
     public IEnumerator DismissLevelUp(CursorAction cursor)

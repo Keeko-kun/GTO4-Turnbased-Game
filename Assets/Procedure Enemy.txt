@@ -1,0 +1,20 @@
+-- Initiate Procedure --
+Am I in range of a player unit?
+	Yes -> Attack Procedure
+	No -> continue
+Is there a tile where I can hit a player unit from?
+	Yes -> Walk to tile(if you have a ranged weapon, use that and choose appropriate tile for it),
+		   if multiple tiles: choose lowest health / won't die -> Attack Procedure
+	No -> continue
+Which player unit has the lowest health?
+	-> Walk towards that unit
+	
+-- Attack --
+Will I die from this battle?
+	Yes -> Run away, if haven't walked before
+	No -> FOR NARNIA!
+	
+
+Different Enemy Moves Are:
+-Walk
+-Attack

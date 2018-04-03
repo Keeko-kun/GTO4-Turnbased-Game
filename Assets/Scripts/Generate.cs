@@ -1,7 +1,9 @@
-﻿using System;
+﻿using cakeslice;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class Generate : MonoBehaviour {
 
     public List<GameObject> grass;
@@ -18,7 +20,9 @@ public class Generate : MonoBehaviour {
     private List<GameObject> physicalPath = new List<GameObject>();
 
 
-    void Awake () {
+
+    void Start () {
+        GameObject.Find("Cursor"); //Sorry, Jack... It's the only way I could think of for this problem...
         GenerateGrass();
         SpawnUnit();
 	}
@@ -31,6 +35,7 @@ public class Generate : MonoBehaviour {
             for (int z = 0; z < mapSize; z++)
             {
                 GameObject piece = grass[random.Next(0, grass.Capacity)];
+                piece.GetComponent<Outline>().enabled = false;
                 map[x, z] = new LevelPiece(x, z);
                 GameObject g = Instantiate(piece, GetVector3(map[x, z]), piece.transform.rotation);
                 map[x, z].Piece = g;

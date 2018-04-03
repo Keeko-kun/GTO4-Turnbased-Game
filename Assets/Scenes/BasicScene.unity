@@ -3830,8 +3830,8 @@ MonoBehaviour:
   sourceCamera: {fileID: 1061442963}
   outlineCamera: {fileID: 1751726852}
   outlineShaderMaterial: {fileID: 0}
-  renderTexture: {fileID: 1348174944}
-  extraRenderTexture: {fileID: 1727011205}
+  renderTexture: {fileID: 1829183528}
+  extraRenderTexture: {fileID: 1778727189}
 --- !u!114 &1061442959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4940,37 +4940,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d50e8877072a544448d56d4ca1009fd6, type: 2}
   m_IsPrefabParent: 0
---- !u!84 &1348174944
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_Width: 987
-  m_Height: 555
-  m_AntiAliasing: 1
-  m_DepthFormat: 1
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 0
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1 &1359143371
 GameObject:
   m_ObjectHideFlags: 0
@@ -6583,37 +6552,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9159981f6ce51654f8e197573b3ca545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!84 &1727011205
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_Width: 987
-  m_Height: 555
-  m_AntiAliasing: 1
-  m_DepthFormat: 1
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1 &1751726851
 GameObject:
   m_ObjectHideFlags: 0
@@ -6656,7 +6594,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 0
   m_RenderingPath: 1
-  m_TargetTexture: {fileID: 1348174944}
+  m_TargetTexture: {fileID: 1829183528}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
@@ -6684,6 +6622,37 @@ Light:
   m_PrefabParentObject: {fileID: 108903397240981856, guid: b97cd6eb49794944e956faa494e4abd9,
     type: 2}
   m_PrefabInternal: {fileID: 1219450654}
+--- !u!84 &1778727189
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_Width: 899
+  m_Height: 505
+  m_AntiAliasing: 1
+  m_DepthFormat: 1
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &1790373355
 GameObject:
   m_ObjectHideFlags: 0
@@ -7067,6 +7036,37 @@ MonoBehaviour:
   - {fileID: 169290771}
   - {fileID: 750284886}
   - {fileID: 131970703}
+--- !u!84 &1829183528
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_Width: 899
+  m_Height: 505
+  m_AntiAliasing: 1
+  m_DepthFormat: 1
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 0
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &1848135604
 GameObject:
   m_ObjectHideFlags: 0
