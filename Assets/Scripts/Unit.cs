@@ -131,7 +131,6 @@ public class Unit : MonoBehaviour {
         GameObject text = Instantiate(damageText, canvas.transform);
 
         text.GetComponent<SetDamagePosition>().Set(transform.position);
-        Debug.Log(crit);
         if (crit) text.GetComponentInChildren<Text>().text = "Crit! " + damage.ToString();
         else if (damage == 0) text.GetComponentInChildren<Text>().text = "Miss";
         else text.GetComponentInChildren<Text>().text = damage.ToString();

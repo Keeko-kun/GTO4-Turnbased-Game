@@ -203,6 +203,5 @@ public class AttackTurn
         }
 
         Damage = damage;
-        Debug.Log(Damage);
     }
 }

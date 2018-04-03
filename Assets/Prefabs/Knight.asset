@@ -9,20 +9,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46153375ffccea9499ca3aea1eda186f, type: 3}
-  m_Name: New Unit
+  m_Name: Knight
   m_EditorClassIdentifier: 
-  unitName: 
-  _class: 
-  level: 0
+  unitName: Enemy
+  _class: Knight
+  level: 2
   experience: 0
-  health: 0
-  strength: 0
+  health: 14
+  strength: 5
   magic: 0
-  defense: 0
-  resistance: 0
-  speed: 0
-  luck: 0
-  skill: 0
-  movement: 0
-  attacks: []
+  defense: 4
+  resistance: 5
+  speed: 6
+  luck: 2
+  skill: 2
+  movement: 3
+  points: 53
+  attacks:
+  - attackName: Iron Sword
+    type: 0
+    range: 1
+    might: 0
+    hit: 0.7
+    crit: 0.1
   growthPercentage: 0000000000000000000000000000000000000000000000000000000000000000

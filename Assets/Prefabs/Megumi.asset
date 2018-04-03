@@ -24,6 +24,7 @@ MonoBehaviour:
   luck: 8
   skill: 4
   movement: 2
+  points: 100
   attacks:
   - attackName: Golden Dagger
     type: 0

@@ -24,6 +24,7 @@ MonoBehaviour:
   luck: 0
   skill: 8
   movement: 3
+  points: 100
   attacks:
   - attackName: Bronze Sword
     type: 0
@@ -34,7 +35,7 @@ MonoBehaviour:
   - attackName: Crystal Blade
     type: 0
     range: 1
-    might: 8
+    might: 7
     hit: 0.5
     crit: 0.4
   growthPercentage: 3200000025000000000000001e0000000f000000280000000500000014000000
