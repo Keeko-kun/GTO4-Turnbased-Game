@@ -21,7 +21,7 @@ public class CursorAction : MonoBehaviour
     private fadePanel predictionsFade;
     private ChangeStats updatePanel;
     private ChangeWeapons updateWeapons;
-    private ChangePrediction updatePrediction;
+    public ChangePrediction updatePrediction { get; private set; }
     private AttackSequence attackSequence;
 
     public AllWalkableTiles WalkableTiles { get { return walkableTiles; } }
@@ -189,7 +189,7 @@ public class CursorAction : MonoBehaviour
     private void SelectActionMoveUnit()
     {
         walkableTiles.Unit = unit;
-        walkableTiles.CalculateTiles(true);
+        walkableTiles.ReachableTiles(true, false);
         unit.GetComponentInChildren<Outline>().enabled = true;
         mode = ActionMode.MoveUnit;
     }
@@ -227,7 +227,7 @@ public class CursorAction : MonoBehaviour
         buttonsFade.visible = false;
         unit.GetComponentInChildren<Outline>().enabled = true;
         walkableTiles.Unit = unit;
-        walkableTiles.CalculateTiles(false);
+        walkableTiles.ReachableTiles(false, false);
     }
 
     public void ResetToSelectTile()

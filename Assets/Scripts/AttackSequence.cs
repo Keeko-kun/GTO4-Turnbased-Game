@@ -6,7 +6,7 @@ using UnityEngine;
 public class AttackSequence : MonoBehaviour
 {
 
-    public void PredictOutcome(Unit attacker, Unit defender, AttackMove moveAttacker, ChangePrediction updatePrediction)
+    public bool PredictOutcome(Unit attacker, Unit defender, AttackMove moveAttacker, ChangePrediction updatePrediction)
     {
         int hpAttacker, hpDefender;
         int hitAttacker, hitDefender;
@@ -30,7 +30,20 @@ public class AttackSequence : MonoBehaviour
         if (attackerTwice && hpDefender > 0 && hpAttacker > 0) hpDefender = PredictHP(attacker, defender, moveAttacker, hitAttacker, hpDefender);
         if (defenderTwice && hpDefender > 0 && hpAttacker > 0) hpAttacker = PredictHP(defender, attacker, moveDefender, hitDefender, hpAttacker);
 
-        updatePrediction.UpdateUI(attacker, defender, hpAttacker.ToString(), hpDefender.ToString(), hitAttacker.ToString(), hitDefender.ToString(), critAttacker.ToString(), critDefender.ToString(), attackerTwice, defenderTwice);
+        if (attacker.playerUnit)
+        {
+            updatePrediction.UpdateUI(attacker, defender, hpAttacker.ToString(), hpDefender.ToString(), hitAttacker.ToString(), hitDefender.ToString(), critAttacker.ToString(), critDefender.ToString(), attackerTwice, defenderTwice);
+            return true;
+        }
+        else
+        {
+            if (hpAttacker <= 0)
+            {
+                return true;
+            }
+            return false;
+        }
+            
     }
 
     private int PredictCrit(Unit unit, AttackMove move, bool canHit)

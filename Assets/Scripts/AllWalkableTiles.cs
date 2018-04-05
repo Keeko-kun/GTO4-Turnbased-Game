@@ -14,7 +14,7 @@ public class AllWalkableTiles
 
     }
 
-    public void CalculateTiles(bool movement)
+    public HashSet<LevelPiece> ReachableTiles(bool movement, bool enemy)
     {
         int iterator = 0;
 
@@ -61,7 +61,8 @@ public class AllWalkableTiles
             }
         }
 
-        ColorTiles(reachableTiles);
+        if (!enemy) ColorTiles(reachableTiles);
+        return reachableTiles;
     }
 
     public AttackMove DefenderCanHit(Unit target)
