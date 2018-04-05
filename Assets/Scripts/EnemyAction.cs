@@ -21,75 +21,104 @@ public class EnemyAction {
         EnemyAction action = new EnemyAction();
         action.Unit = unit;
 
-        CanAttackNow(unit, cursorAction, action);
+        cursorAction.WalkableTiles.Unit = unit.gameObject;
 
-        if (action.ActionType == EnemyActionType.Attack)
-        {
-            return action;
-        }
+        WithinRange(unit, cursorAction, action);
 
-
+        if (action.ActionType == EnemyActionType.Attack || action.ActionType == EnemyActionType.WalkAttack)
+            SetWeapon(action.Unit, action.TargetUnit, cursorAction);
 
         return action;
     }
 
-    private static bool CanAttackNow(Unit unit, CursorAction cursorAction, EnemyAction action)
+    private static bool WithinRange(Unit unit, CursorAction cursorAction, EnemyAction action)
     {
-        HashSet<LevelPiece> reachableTiles = cursorAction.WalkableTiles.ReachableTiles(false, true);
-        List<LevelPiece> hitableUnits = new List<LevelPiece>();
+        LevelPiece currentTile = unit.GetComponent<Movement>().currentTile;
+        HashSet<LevelPiece> reachableTiles = cursorAction.WalkableTiles.ReachableTiles(true, true);
+
+
+        Hashtable hitableUnitsFromTile = new Hashtable();
 
         foreach (LevelPiece tile in reachableTiles)
         {
-            if (tile.Unit != null)
+            unit.GetComponent<Movement>().currentTile = tile;
+            foreach (AttackMove weapon in unit.stats.Attacks)
             {
-                if (tile.Unit.GetComponent<Unit>().playerUnit)
+                unit.Weapon = weapon;
+                HashSet<LevelPiece> reachableFromCurrent = cursorAction.WalkableTiles.ReachableTiles(false, true);
+                foreach (LevelPiece weaponRange in reachableFromCurrent)
                 {
-                    hitableUnits.Add(tile);
+                    if (weaponRange.Unit != null)
+                    {
+                        if (weaponRange.Unit.GetComponent<Unit>().playerUnit)
+                        {
+                            hitableUnitsFromTile.Add(weaponRange.Unit, tile);
+                        }
+                    }
                 }
             }
+
         }
 
-        LevelPiece targetTile = null;
+        unit.GetComponent<Movement>().currentTile = currentTile;
 
-        if (hitableUnits.Count == 0)
+        List<LevelPiece> keys = (List<LevelPiece>)hitableUnitsFromTile.Keys;
+
+        if (keys.Count == 1)
         {
-            return false;
+            action.TargetUnit = keys[0].Unit.GetComponent<Unit>();
+            action.TargetTile = (LevelPiece)hitableUnitsFromTile[keys[0]];
+            DecideType(action);
         }
-        else if(hitableUnits.Count > 1)
+        else if (keys.Count > 1)
         {
             List<bool> willDieFromAttack = new List<bool>();
-            foreach (LevelPiece tile in hitableUnits)
+            foreach (LevelPiece tile in keys)
             {
-                willDieFromAttack.Add(WillDieFromAttack(unit, tile.Unit.GetComponent<Unit>(), cursorAction));
+                willDieFromAttack.Add(SetWeapon(unit, tile.Unit.GetComponent<Unit>(), cursorAction));
             }
 
             for (int i = 0; i < willDieFromAttack.Count; i++)
             {
-                if (!willDieFromAttack.Contains(true) || !willDieFromAttack.Contains(false)/*Run away?*/)
+                if (!willDieFromAttack.Contains(true) || !willDieFromAttack.Contains(false))
                 {
-                    targetTile = hitableUnits[Random.Range(0, hitableUnits.Count)];
+                    int random = Random.Range(0, keys.Count);
+                    action.TargetUnit = keys[random].Unit.GetComponent<Unit>();
+                    action.TargetTile = (LevelPiece)hitableUnitsFromTile[keys[random]];
+                    DecideType(action);
                     break;
                 }
-                hitableUnits.Shuffle();
+                keys.Shuffle();
                 if (willDieFromAttack[i] == false)
                 {
-                    targetTile = hitableUnits[i];
+                    action.TargetUnit = keys[i].Unit.GetComponent<Unit>();
+                    action.TargetTile = (LevelPiece)hitableUnitsFromTile[keys[i]];
+                    DecideType(action);
                 }
             }
-
         }
-        else
+        else if (keys.Count == 0)
         {
-            targetTile = hitableUnits[0];
+            action.ActionType = EnemyActionType.Walk;
+            action.TargetUnit = null;
         }
 
-        action.TargetUnit = targetTile.Unit.GetComponent<Unit>();
-
-        action.ActionType = EnemyActionType.Attack;
         return true;
     }
 
-    private static bool WillDieFromAttack(Unit unit, Unit target, CursorAction cursorAction)
+    private static void DecideType(EnemyAction action)
+    {
+        if (action.Unit.GetComponent<Movement>().currentTile == action.TargetTile && action.TargetUnit != null)
+        {
+            action.ActionType = EnemyActionType.Attack;
+        }
+        else
+        {
+            action.ActionType = EnemyActionType.WalkAttack;
+        }
+    }
+
+    private static bool SetWeapon(Unit unit, Unit target, CursorAction cursorAction)
     {
         cursorAction.WalkableTiles.Unit = target.gameObject;
         AttackMove weapon = cursorAction.WalkableTiles.DefenderCanHit(unit);
