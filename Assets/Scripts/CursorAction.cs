@@ -44,7 +44,7 @@ public class CursorAction : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown("joystick button 1") && mode != ActionMode.LevelUp && mode != ActionMode.EnemyTurn)
+        if (Input.GetKeyDown("joystick button 1") && mode != ActionMode.EnemyTurn)
         {
             ResetToSelectTile();
         }
@@ -65,9 +65,6 @@ public class CursorAction : MonoBehaviour
                     break;
                 case ActionMode.SelectAction:
                     SelectAction();
-                    break;
-                case ActionMode.LevelUp:
-                    StartCoroutine(unit.GetComponent<Unit>().DismissLevelUp(this));
                     break;
                 case ActionMode.SelectTarget:
                     SelectTarget();
@@ -284,8 +281,6 @@ public class CursorAction : MonoBehaviour
             case ActionMode.ConfirmBattle:
                 predictionsFade.visible = false;
                 break;
-            case ActionMode.LevelUp:
-                return;
             default:
                 break;
         }
@@ -302,7 +297,6 @@ public enum ActionMode
     MoveUnit,
     SelectTile,
     SelectAction,
-    LevelUp,
     SelectWeapon,
     SelectTarget,
     ConfirmBattle,

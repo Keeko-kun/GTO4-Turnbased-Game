@@ -17,6 +17,7 @@ public class EnemyAction {
 
     public static EnemyAction GetNewAction(Unit unit, CursorAction cursorAction)
     {
+        LevelPiece currentTile = unit.GetComponent<Movement>().currentTile;
         EnemyAction action = new EnemyAction();
         action.Unit = unit;
 
@@ -24,6 +25,7 @@ public class EnemyAction {
 
         WithinRange(unit, cursorAction, action);
 
+        cursorAction.GetComponent<MoveCursor>().map.SetUnit((int)currentTile.PosX, (int)currentTile.PosZ, null);
         cursorAction.GetComponent<MoveCursor>().map.SetUnit((int)action.TargetTile.PosX, (int)action.TargetTile.PosZ, action.Unit.gameObject);
 
         if (action.ActionType == EnemyActionType.Attack || action.ActionType == EnemyActionType.WalkAttack)

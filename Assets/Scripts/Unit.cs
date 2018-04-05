@@ -90,16 +90,12 @@ public class Unit : MonoBehaviour {
 
         if (experience >= 100)
         {
-            if (playerUnit)
-            {
-                cursor.mode = ActionMode.LevelUp;
-            }
             experience -= 100;
-            IncreaseLevel();
+            IncreaseLevel(cursor);
         }
     }
 
-    private void IncreaseLevel()
+    private void IncreaseLevel(CursorAction cursor)
     {
         level++;
         List<string> grownStats = GrowStats();
@@ -120,6 +116,7 @@ public class Unit : MonoBehaviour {
                 GameObject text = Instantiate(levelUpTextObject, panel.transform);
                 text.GetComponent<Text>().text = stat + " + 1";
             }
+            StartCoroutine(DismissLevelUp(cursor));
         }
 
 
@@ -127,6 +124,7 @@ public class Unit : MonoBehaviour {
 
     public IEnumerator DismissLevelUp(CursorAction cursor)
     {
+        yield return new WaitForSeconds(3.75f);
         levelUpScreen.transform.GetChild(0).GetComponent<Animator>().SetBool("dismissed", true);
         yield return new WaitForSeconds(1.1f);
         Destroy(levelUpScreen);
