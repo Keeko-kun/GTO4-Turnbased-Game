@@ -42,7 +42,6 @@ public class CursorAction : MonoBehaviour
         updatePrediction = predictionsPanel.GetComponent<ChangePrediction>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown("joystick button 1") && mode != ActionMode.LevelUp)
@@ -119,6 +118,7 @@ public class CursorAction : MonoBehaviour
                 {
                     mode = ActionMode.SelectAction;
                     cursor.chooseAction.GetComponent<fadePanel>().visible = true;
+                    cursor.chooseAction.GetComponent<ChangeActions>().UpdateUI(unit.GetComponent<Unit>().HasMoved, unit.GetComponent<Unit>().HasAttacked);
                     updatePanel.UpdateUI(unit.GetComponent<Unit>());
                     unitStats.visible = true;
                 }
@@ -146,6 +146,7 @@ public class CursorAction : MonoBehaviour
 
     private IEnumerator ConfirmBattle() //Coroutine?
     {
+        unit.GetComponent<Unit>().HasAttacked = true;
         mode = ActionMode.WaitForBattle;
         List<AttackTurn> turns = new List<AttackTurn>();
         if (int.Parse(updatePrediction.hitAttacker.text) > 0) turns.Add(new AttackTurn(unit.GetComponent<Unit>(), target.GetComponent<Unit>()));
@@ -165,13 +166,15 @@ public class CursorAction : MonoBehaviour
         switch (cursor.chooseAction.currentAction)
         {
             case CurrentAction.Move:
-                SelectActionMoveUnit();
+                if (!unit.GetComponent<Unit>().HasMoved && !unit.GetComponent<Unit>().HasAttacked) SelectActionMoveUnit();
+                else return;
                 break;
             case CurrentAction.Back:
                 ResetToSelectTile();
                 break;
             case CurrentAction.Attack:
-                SelectActionAttack();
+                if (!unit.GetComponent<Unit>().HasAttacked) SelectActionAttack();
+                else return;
                 break;
             case CurrentAction.EndTurn:
                 ResetToSelectTile();
@@ -203,8 +206,10 @@ public class CursorAction : MonoBehaviour
             yield break;
         }
 
+
         cursor.map.SetUnit((int)copyOfUnit.GetComponent<Movement>().currentTile.PosX, (int)copyOfUnit.GetComponent<Movement>().currentTile.PosZ, null);
         cursor.map.SetUnit(x, z, copyOfUnit);
+        copyOfUnit.GetComponent<Unit>().HasMoved = true;
         yield return StartCoroutine(copyOfUnit.GetComponent<Movement>().StartMovement(cursor.GetCurrentTile));
 
     }

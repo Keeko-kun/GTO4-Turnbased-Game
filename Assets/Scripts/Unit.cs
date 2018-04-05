@@ -37,6 +37,9 @@ public class Unit : MonoBehaviour {
 
     private GameObject levelUpScreen;
 
+    public bool HasMoved { get; set; }
+    public bool HasAttacked { get; set; }
+
     public string Name { get { return unitName; } }
     public string Class { get { return _class; } }
     public int Level { get { return level; } }

@@ -992,7 +992,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24c9171c34e17364d9812ec3728971ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: b8a55da3bc584b84ca21379a5591838d, type: 2}
+  stats: {fileID: 11400000, guid: 5d2c8d3aa95c7cb448863b550032a8ec, type: 2}
   LevelUpDisplay: {fileID: 1989686165809084, guid: 9221719b9a695c547930405295790fc7,
     type: 2}
   levelUpTextObject: {fileID: 1326672118401108, guid: 1a599e9148daf3c4dabb86c4fbb3fe72,
