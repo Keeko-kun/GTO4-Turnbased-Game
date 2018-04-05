@@ -9,11 +9,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46153375ffccea9499ca3aea1eda186f, type: 3}
-  m_Name: Knight
+  m_Name: Dark Knight
   m_EditorClassIdentifier: 
-  unitName: Enemy
+  unitName: Dark Knight
   _class: Knight
-  level: 2
+  level: 1
   experience: 0
   health: 14
   strength: 5
@@ -32,4 +32,4 @@ MonoBehaviour:
     might: 0
     hit: 0.7
     crit: 0.1
-  growthPercentage: 0000000000000000000000000000000000000000000000000000000000000000
+  growthPercentage: 2d00000023000000000000001e000000140000000a0000002d00000023000000

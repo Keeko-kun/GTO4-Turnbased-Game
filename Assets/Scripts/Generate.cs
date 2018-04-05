@@ -4,7 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Generate : MonoBehaviour {
+public class Generate : MonoBehaviour
+{
 
     public List<GameObject> grass;
     public GameObject water;
@@ -15,17 +16,18 @@ public class Generate : MonoBehaviour {
 
     private LevelPiece[,] map;
     private System.Random random = new System.Random();
-    private float spacing = 2.5f;
+    private float spacing = Globals.spacing;
     private List<LevelPiece> path;
     private List<GameObject> physicalPath = new List<GameObject>();
+    private GameObject cursor;
 
 
-
-    void Start () {
-        GameObject.Find("Cursor"); //Sorry, Jack... It's the only way I could think of for this problem...
+    void Start()
+    {
+        cursor = GameObject.Find("Cursor");
         GenerateGrass();
-        SpawnUnit();
-	}
+        SpawnUnits();
+    }
 
     private void GenerateGrass()
     {
@@ -63,7 +65,7 @@ public class Generate : MonoBehaviour {
             map[i, startPosZ].Piece = g;
             map[i, startPosZ].Walkable = g.GetComponent<TerrainProperties>().walkable;
 
-            if (random.Next(0,100) >= 80 && !randomDirection && i != 0)
+            if (random.Next(0, 100) >= 80 && !randomDirection && i != 0)
             {
                 randomDirection = true;
                 oldZ = startPosZ;
@@ -105,17 +107,38 @@ public class Generate : MonoBehaviour {
         }
     }
 
-    private void SpawnUnit()
+    private void SpawnUnits()
     {
-        GameObject u = Instantiate(unit, unit.transform.position, unit.transform.rotation);
-        SetUnit(0, 0, u);
-        u.GetComponent<Movement>().pathfinder = GetComponent<Pathfinding>();
-        u.GetComponent<Movement>().currentTile = map[0, 0];
+        List<GameObject> playerUnits = cursor.GetComponent<PlayerSession>().playerUnits;
 
-        GameObject u2 = Instantiate(unit2, new Vector3(unit2.transform.position.x -2.5f, unit2.transform.position.y, unit2.transform.position.z), unit2.transform.rotation);
-        SetUnit(1, 0, u2);
-        u2.GetComponent<Movement>().pathfinder = GetComponent<Pathfinding>();
-        u2.GetComponent<Movement>().currentTile = map[1, 0];
+        for (int i = 0; i < playerUnits.Count; i++)
+        {
+            GameObject u = Instantiate(playerUnits[i],
+                new Vector3(0 - (Globals.spacing * i), playerUnits[i].transform.position.y, 0),
+                Quaternion.identity);
+            SetUnit(i, 0, u);
+            u.GetComponent<Movement>().pathfinder = GetComponent<Pathfinding>();
+            u.GetComponent<Movement>().currentTile = map[i, 0];
+
+            cursor.GetComponent<PlayerSession>().playerUnits[i] = u;
+        }
+
+        AIController aiController = cursor.GetComponent<AIController>();
+
+        for (int i = 0; i < 4; i++)
+        {
+            int rnd = random.Next(0, aiController.enemyPrefabs.Count);
+            GameObject u = Instantiate(aiController.enemyPrefabs[rnd],
+                new Vector3(-1 * (map.GetLength(0) * Globals.spacing) + (Globals.spacing * (i + 1)), aiController.enemyPrefabs[rnd].transform.position.y, map.GetLength(0) * Globals.spacing - Globals.spacing),
+                Quaternion.Euler(0, 180, 0));
+            SetUnit(map.GetLength(0) - 1 - i, map.GetLength(1) - 1, u);
+            u.GetComponent<Movement>().pathfinder = GetComponent<Pathfinding>();
+            u.GetComponent<Movement>().currentTile = map[map.GetLength(0) - 1 - i, map.GetLength(1) - 1];
+
+            aiController.enemyUnits.Add(u);
+        }
+
+        aiController.RaiseLevel(playerUnits);
     }
 
     private Vector3 GetVector3(LevelPiece piece)

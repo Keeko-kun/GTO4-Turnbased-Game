@@ -28,6 +28,7 @@ public class Unit : MonoBehaviour {
     private int luck;
     private int skill;
     private int movement;
+    private int points;
 
     private AttackMove weapon;
 
@@ -54,9 +55,10 @@ public class Unit : MonoBehaviour {
     public int Luck { get { return luck; } }
     public int Skill { get { return skill; } }
     public int Movement { get { return movement; } }
+    public int Points { get { return points; } }
     public AttackMove Weapon { get { return weapon; } set { weapon = value; } }
 
-    private void Start()
+    private void Awake()
     {
         if (!hasBeenInitialized)
         {
@@ -74,6 +76,7 @@ public class Unit : MonoBehaviour {
             luck = stats.Luck;
             skill = stats.Skill;
             movement = stats.Movement;
+            points = stats.Points;
 
             weapon = stats.Attacks[0];
         }
@@ -87,7 +90,10 @@ public class Unit : MonoBehaviour {
 
         if (experience >= 100)
         {
-            if (playerUnit) cursor.mode = ActionMode.LevelUp;
+            if (playerUnit)
+            {
+                cursor.mode = ActionMode.LevelUp;
+            }
             experience -= 100;
             IncreaseLevel();
         }
@@ -96,7 +102,6 @@ public class Unit : MonoBehaviour {
     private void IncreaseLevel()
     {
         level++;
-
         List<string> grownStats = GrowStats();
 
         if (playerUnit)

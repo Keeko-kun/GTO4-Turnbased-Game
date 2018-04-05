@@ -151,7 +151,7 @@ public class AttackSequence : MonoBehaviour
             {
                 if (turn.Attacker == unit && turn.Attacker.playerUnit)
                 {
-                    turn.Attacker.IncreaseExperience(100, GetComponent<CursorAction>());
+                    turn.Attacker.IncreaseExperience(turn.Defender.Points, GetComponent<CursorAction>());
                 }               
                 break;
             }

@@ -31,7 +31,7 @@ public class EnemyAction {
         return action;
     }
 
-    private static bool WithinRange(Unit unit, CursorAction cursorAction, EnemyAction action)
+    private static void WithinRange(Unit unit, CursorAction cursorAction, EnemyAction action)
     {
         LevelPiece currentTile = unit.GetComponent<Movement>().currentTile;
         HashSet<LevelPiece> reachableTiles = cursorAction.WalkableTiles.ReachableTiles(true, true);
@@ -101,9 +101,32 @@ public class EnemyAction {
         {
             action.ActionType = EnemyActionType.Walk;
             action.TargetUnit = null;
-        }
 
-        return true;
+            Unit currentTarget = null;
+
+            foreach (GameObject unitObject in cursorAction.GetComponent<PlayerSession>().playerUnits)
+            {
+                if (currentTarget == null || currentTarget.CurrentHealth > unitObject.GetComponent<Unit>().CurrentHealth)
+                {
+                    currentTarget = unitObject.GetComponent<Unit>();
+                }
+            }
+
+            List<LevelPiece> path = action.Unit.GetComponent<Movement>().pathfinder.FindPath(new Node((int)currentTarget.GetComponent<Movement>().currentTile.PosX, (int)currentTarget.GetComponent<Movement>().currentTile.PosZ, true),
+                new Node((int)action.Unit.GetComponent<Movement>().currentTile.PosX, (int)action.Unit.GetComponent<Movement>().currentTile.PosZ, true));
+
+            for (int i = 0; i < path.Count; i++)
+            {
+                foreach (LevelPiece tile in reachableTiles)
+                {
+                    if (path[i] == tile)
+                    {
+                        action.TargetTile = tile;
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     private static void DecideType(EnemyAction action)

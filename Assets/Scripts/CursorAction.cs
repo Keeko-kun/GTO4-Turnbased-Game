@@ -108,8 +108,10 @@ public class CursorAction : MonoBehaviour
             if (!cursor.GetCurrentTile.Unit.GetComponent<Unit>().playerUnit)
             {
                 mode = ActionMode.ViewEnemyStats;
+                unit = cursor.GetCurrentTile.Unit;
                 updatePanel.UpdateUI(cursor.GetCurrentTile.Unit.GetComponent<Unit>());
                 unitStats.visible = true;
+                unit = null;
             }
             else
             {

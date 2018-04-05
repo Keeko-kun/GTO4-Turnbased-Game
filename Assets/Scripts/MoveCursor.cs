@@ -10,7 +10,7 @@ public class MoveCursor : MonoBehaviour {
     public MoveSelectedAction chooseAction;
 
     private LevelPiece currentTile;
-    private float tileSize = 2.5f;
+    private float tileSize = Globals.spacing;
 
     private bool canMove;
 

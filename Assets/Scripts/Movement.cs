@@ -43,26 +43,26 @@ public class Movement : MonoBehaviour {
             Vector3 move = new Vector3(tile.PosX * -1 - currentlyOn.PosX * -1, 0, tile.PosZ - currentlyOn.PosZ);
             if (Forward().x == move.x && Forward().z == move.z)
             {
-                yield return StartCoroutine(WalkForward(new Vector3(tile.PosX * 2.5f * -1, transform.position.y, tile.PosZ *2.5f)));
+                yield return StartCoroutine(WalkForward(new Vector3(tile.PosX * Globals.spacing * -1, transform.position.y, tile.PosZ * Globals.spacing)));
             }
             else
             {
                 Debug.Log(move);
                 if (move.x * Forward().z  < 0 || move.z * Forward().x * -1 < 0)
                 {
-                    yield return StartCoroutine(Turn("turnLeft", -1, 90, 2.5f));
+                    yield return StartCoroutine(Turn("turnLeft", -1, 90, Globals.spacing));
                 }
                 else if (Forward() * -1 == move)
                 {
-                    yield return StartCoroutine(Turn("turnLeft", -1, 180, 2.5f));
+                    yield return StartCoroutine(Turn("turnLeft", -1, 180, Globals.spacing));
                 }
                 else
                 {
-                    yield return StartCoroutine(Turn("turnRight", 1, 90, 2.5f));
+                    yield return StartCoroutine(Turn("turnRight", 1, 90, Globals.spacing));
                 }
 
 
-                yield return StartCoroutine(WalkForward(new Vector3(tile.PosX * 2.5f * -1, transform.position.y, tile.PosZ * 2.5f)));
+                yield return StartCoroutine(WalkForward(new Vector3(tile.PosX * Globals.spacing * -1, transform.position.y, tile.PosZ * Globals.spacing)));
             }
             currentTile = tile;
         }

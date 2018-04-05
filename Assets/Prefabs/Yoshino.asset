@@ -24,7 +24,7 @@ MonoBehaviour:
   luck: 4
   skill: 6
   movement: 3
-  points: 100
+  points: 99
   attacks:
   - attackName: Steel Lance
     type: 0
