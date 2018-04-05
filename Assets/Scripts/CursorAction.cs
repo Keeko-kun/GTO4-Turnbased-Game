@@ -44,7 +44,7 @@ public class CursorAction : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown("joystick button 1") && mode != ActionMode.LevelUp)
+        if (Input.GetKeyDown("joystick button 1") && mode != ActionMode.LevelUp && mode != ActionMode.EnemyTurn)
         {
             ResetToSelectTile();
         }
@@ -53,7 +53,7 @@ public class CursorAction : MonoBehaviour
             SelectWeapon();
             return;
         }
-        if (Input.GetKeyDown("joystick button 0"))
+        if (Input.GetKeyDown("joystick button 0") && mode != ActionMode.EnemyTurn)
         {
             switch (mode)
             {
@@ -80,11 +80,10 @@ public class CursorAction : MonoBehaviour
                     break;
             }
         }
-        if (Input.GetKeyDown("joystick button 2"))
+        if (Input.GetKeyDown("joystick button 2")) //Remove this.
         {
             GetComponent<AIController>().GenerateCommands();
-            StartCoroutine(GetComponent<AIController>().ExecuteCommands());
-            
+            StartCoroutine(GetComponent<AIController>().ExecuteCommands());       
         }
 
         if (Input.GetKey("joystick button 6"))
@@ -194,7 +193,8 @@ public class CursorAction : MonoBehaviour
                 else return;
                 break;
             case CurrentAction.EndTurn:
-                ResetToSelectTile();
+                mode = ActionMode.EnemyTurn;
+                StartCoroutine(SwitchTurn());
                 break;
         }
 
@@ -247,6 +247,21 @@ public class CursorAction : MonoBehaviour
         walkableTiles.ReachableTiles(false, false);
     }
 
+    private IEnumerator SwitchTurn()
+    {
+        mode = ActionMode.EnemyTurn;
+
+        foreach (GameObject unit in GetComponent<PlayerSession>().playerUnits)
+        {
+            unit.GetComponent<Unit>().HasMoved = false;
+            unit.GetComponent<Unit>().HasAttacked = false;
+        }
+
+        GetComponent<AIController>().GenerateCommands();
+        yield return StartCoroutine(GetComponent<AIController>().ExecuteCommands());
+        ResetToSelectTile();
+    }
+
     public void ResetToSelectTile()
     {
         switch (mode)
@@ -292,5 +307,6 @@ public enum ActionMode
     SelectTarget,
     ConfirmBattle,
     WaitForBattle,
-    ViewEnemyStats
+    ViewEnemyStats,
+    EnemyTurn
 }

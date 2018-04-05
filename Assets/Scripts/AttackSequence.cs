@@ -139,7 +139,7 @@ public class AttackSequence : MonoBehaviour
                 yield return new WaitForFixedUpdate();
             }
 
-            turn.Defender.TakeDamage(turn.Damage, turn.Crit);
+            turn.Defender.TakeDamage(turn.Damage, turn.Crit, gameObject);
 
             if (turn.Defender.CurrentHealth <= 0)
             {

@@ -134,11 +134,9 @@ public class Unit : MonoBehaviour {
         cursor.ResetToSelectTile();
     }
 
-    public void TakeDamage(int damage, bool crit)
+    public void TakeDamage(int damage, bool crit, GameObject cursor)
     {
         currentHealth -= damage;
-
-
 
         GameObject canvas = GetComponentInChildren<Canvas>().gameObject;
         GameObject text = Instantiate(damageText, canvas.transform);
@@ -152,12 +150,21 @@ public class Unit : MonoBehaviour {
         if (currentHealth <= 0) // This means dead
         {
             currentHealth = 0;
-            StartCoroutine(InitiateDeath());
+            StartCoroutine(InitiateDeath(cursor));
         }
     }
 
-    private IEnumerator InitiateDeath()
+    private IEnumerator InitiateDeath(GameObject cursor)
     {
+        if (playerUnit)
+        {
+            cursor.GetComponent<PlayerSession>().playerUnits.Remove(gameObject);
+        }
+        else
+        {
+            cursor.GetComponent<AIController>().enemyUnits.Remove(gameObject);
+        }
+
         GetComponent<Movement>().currentTile.Unit = null;
 
         GetComponent<Animator>().SetBool("death", true);
