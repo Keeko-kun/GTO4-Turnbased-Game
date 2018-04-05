@@ -43,12 +43,13 @@ public class AIController : MonoBehaviour {
 
     private IEnumerator Walk(EnemyAction command)
     {
+        GetComponent<MoveCursor>().map.SetUnit((int)command.TargetTile.PosX, (int)command.TargetTile.PosZ, command.Unit.gameObject);
         yield return StartCoroutine(command.Unit.GetComponent<Movement>().StartMovement(command.TargetTile));
     }
 
     private IEnumerator Attack(EnemyAction command)
     {
-        yield return new WaitForFixedUpdate();
+        yield return StartCoroutine(GetComponent<CursorAction>().ConfirmBattle(command.Unit, command.TargetUnit));
     }
 
     public void RaiseLevel(List<GameObject> playerUnits)

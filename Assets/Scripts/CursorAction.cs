@@ -73,7 +73,7 @@ public class CursorAction : MonoBehaviour
                     SelectTarget();
                     break;
                 case ActionMode.ConfirmBattle:
-                    StartCoroutine(ConfirmBattle());
+                    StartCoroutine(ConfirmBattle(unit.GetComponent<Unit>(), target.GetComponent<Unit>()));
                     break;
                 case ActionMode.ViewEnemyStats:
                     ResetToSelectTile();
@@ -152,7 +152,7 @@ public class CursorAction : MonoBehaviour
         }
     }
 
-    private IEnumerator ConfirmBattle() //Coroutine?
+    public IEnumerator ConfirmBattle(Unit unit, Unit target)
     {
         unit.GetComponent<Unit>().HasAttacked = true;
         mode = ActionMode.WaitForBattle;

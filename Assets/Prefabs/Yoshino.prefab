@@ -1000,7 +1000,7 @@ MonoBehaviour:
   levelUpParticles: {fileID: 1432486954702926, guid: 0a11dc73cab1cca4db75bbd81c6c8c0f,
     type: 2}
   damageText: {fileID: 1801921894633940, guid: 81b271e301968c14f915fdc8b55ec2d0, type: 2}
-  playerUnit: 0
+  playerUnit: 1
   deathParticles:
   - {fileID: 1521843483799964, guid: a888b44ea3ac13043991db4a04724484, type: 2}
   - {fileID: 1842683326362028, guid: ca8891025e68517468523abb73b2af27, type: 2}

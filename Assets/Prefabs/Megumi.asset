@@ -16,7 +16,7 @@ MonoBehaviour:
   level: 1
   experience: 0
   health: 20
-  strength: 0
+  strength: 2
   magic: 9
   defense: 5
   resistance: 8
@@ -24,7 +24,7 @@ MonoBehaviour:
   luck: 8
   skill: 4
   movement: 2
-  points: 100
+  points: 0
   attacks:
   - attackName: Golden Dagger
     type: 0
@@ -34,8 +34,8 @@ MonoBehaviour:
     crit: 0.1
   - attackName: Fire Bolt
     type: 1
-    range: 3
+    range: 2
     might: 5
-    hit: 0.4
-    crit: 0.5
-  growthPercentage: 2300000000000000230000001e0000002800000019000000140000000f000000
+    hit: 0.9
+    crit: 0.1
+  growthPercentage: 230000000a000000230000001e0000002800000019000000140000000f000000

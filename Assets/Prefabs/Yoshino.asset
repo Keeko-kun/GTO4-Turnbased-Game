@@ -24,18 +24,18 @@ MonoBehaviour:
   luck: 4
   skill: 6
   movement: 3
-  points: 99
+  points: 0
   attacks:
   - attackName: Steel Lance
     type: 0
     range: 1
     might: 5
-    hit: 0.8
-    crit: 0
+    hit: 0.1
+    crit: 0.2
   - attackName: Maple Bow
     type: 0
     range: 2
     might: 4
     hit: 0.7
-    crit: 0.15
+    crit: 0.3
   growthPercentage: 230000001e0000000000000019000000050000000f0000001900000014000000

@@ -23,13 +23,13 @@ MonoBehaviour:
   speed: 6
   luck: 2
   skill: 2
-  movement: 3
+  movement: 20
   points: 53
   attacks:
   - attackName: Iron Sword
     type: 0
     range: 1
-    might: 0
+    might: 3
     hit: 0.7
     crit: 0.1
   growthPercentage: 2d00000023000000000000001e000000140000000a0000002d00000023000000
