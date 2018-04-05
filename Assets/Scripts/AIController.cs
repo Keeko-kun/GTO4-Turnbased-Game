@@ -36,6 +36,7 @@ public class AIController : MonoBehaviour {
             else if (command.ActionType == EnemyActionType.WalkAttack)
             {
                 yield return StartCoroutine(Walk(command));
+                yield return new WaitForFixedUpdate();
                 yield return StartCoroutine(Attack(command));
             }
         }
@@ -49,6 +50,7 @@ public class AIController : MonoBehaviour {
 
     private IEnumerator Attack(EnemyAction command)
     {
+        yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(GetComponent<CursorAction>().ConfirmBattle(command.Unit, command.TargetUnit));
     }
 

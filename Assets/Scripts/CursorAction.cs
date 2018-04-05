@@ -86,6 +86,15 @@ public class CursorAction : MonoBehaviour
             StartCoroutine(GetComponent<AIController>().ExecuteCommands());
             
         }
+
+        if (Input.GetKey("joystick button 6"))
+        {
+            Time.timeScale = 3;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
     }
 
     private void SelectWeapon()

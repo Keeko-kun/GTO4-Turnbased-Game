@@ -128,7 +128,6 @@ public class AttackSequence : MonoBehaviour
 
     public IEnumerator ExecuteBattle(List<AttackTurn> turns, Unit unit)
     {
-
         foreach (AttackTurn turn in turns)
         {
             turn.Attacker.GetComponent<Animator>().SetBool("attack", true);
@@ -144,11 +143,12 @@ public class AttackSequence : MonoBehaviour
 
             if (turn.Defender.CurrentHealth <= 0)
             {
-                if (turn.Attacker == unit && turn.Attacker.playerUnit)
-                {
-                    turn.Attacker.IncreaseExperience(turn.Defender.Points, GetComponent<CursorAction>());
-                }
+                turn.Attacker.IncreaseExperience(turn.Defender.Points, GetComponent<CursorAction>());
                 break;
+            }
+            else if (turn.Attacker.CurrentHealth <= 0)
+            {
+                turn.Defender.IncreaseExperience(turn.Attacker.Points, GetComponent<CursorAction>());
             }
 
             yield return new WaitForSeconds(1.5f);
