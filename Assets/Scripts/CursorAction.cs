@@ -22,7 +22,7 @@ public class CursorAction : MonoBehaviour
     private ChangeStats updatePanel;
     private ChangeWeapons updateWeapons;
     public ChangePrediction updatePrediction { get; private set; }
-    private AttackSequence attackSequence;
+    public AttackSequence attackSequence { get; private set; }
 
     public AllWalkableTiles WalkableTiles { get { return walkableTiles; } }
 
@@ -79,6 +79,12 @@ public class CursorAction : MonoBehaviour
                     ResetToSelectTile();
                     break;
             }
+        }
+        if (Input.GetKeyDown("joystick button 2"))
+        {
+            GetComponent<AIController>().GenerateCommands();
+            StartCoroutine(GetComponent<AIController>().ExecuteCommands());
+            
         }
     }
 

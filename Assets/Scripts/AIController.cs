@@ -9,6 +9,48 @@ public class AIController : MonoBehaviour {
 
     public List<GameObject> enemyUnits;
 
+    private List<EnemyAction> commands;
+
+    public void GenerateCommands()
+    {
+        commands = new List<EnemyAction>();
+
+        foreach (GameObject unit in enemyUnits)
+        {
+            commands.Add(EnemyAction.GetNewAction(unit.GetComponent<Unit>(), GetComponent<CursorAction>()));
+        }
+    }
+
+    public IEnumerator ExecuteCommands()
+    {
+        foreach (EnemyAction command in commands)
+        {
+            if (command.ActionType == EnemyActionType.Walk)
+            {
+                yield return StartCoroutine(Walk(command));
+            }
+            else if (command.ActionType == EnemyActionType.Attack)
+            {
+                yield return StartCoroutine(Attack(command));
+            }
+            else if (command.ActionType == EnemyActionType.WalkAttack)
+            {
+                yield return StartCoroutine(Walk(command));
+                yield return StartCoroutine(Attack(command));
+            }
+        }
+    }
+
+    private IEnumerator Walk(EnemyAction command)
+    {
+        yield return StartCoroutine(command.Unit.GetComponent<Movement>().StartMovement(command.TargetTile));
+    }
+
+    private IEnumerator Attack(EnemyAction command)
+    {
+        yield return new WaitForFixedUpdate();
+    }
+
     public void RaiseLevel(List<GameObject> playerUnits)
     {
         int totalLevel = 0;

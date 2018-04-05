@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,8 +9,6 @@ public class EnemyAction {
     public EnemyActionType ActionType { get; private set; }
     public LevelPiece TargetTile { get; private set; }
     public Unit TargetUnit { get; private set; }
-
-    private static AttackSequence attackSequence;
 
     public EnemyAction()
     {
@@ -26,7 +25,7 @@ public class EnemyAction {
         WithinRange(unit, cursorAction, action);
 
         if (action.ActionType == EnemyActionType.Attack || action.ActionType == EnemyActionType.WalkAttack)
-            SetWeapon(action.Unit, action.TargetUnit, cursorAction);
+            SetWeapon(action.Unit, action.TargetUnit, cursorAction, action.TargetTile);
 
         return action;
     }
@@ -52,7 +51,8 @@ public class EnemyAction {
                     {
                         if (weaponRange.Unit.GetComponent<Unit>().playerUnit)
                         {
-                            hitableUnitsFromTile.Add(weaponRange.Unit, tile);
+                            if (!hitableUnitsFromTile.ContainsKey(weaponRange))
+                                hitableUnitsFromTile.Add(weaponRange, tile);
                         }
                     }
                 }
@@ -62,20 +62,22 @@ public class EnemyAction {
 
         unit.GetComponent<Movement>().currentTile = currentTile;
 
-        List<LevelPiece> keys = (List<LevelPiece>)hitableUnitsFromTile.Keys;
+        List<LevelPiece> keys = hitableUnitsFromTile.Keys.Cast<LevelPiece>().ToList(); ;
 
         if (keys.Count == 1)
         {
+            Debug.Log("hier (1)");
             action.TargetUnit = keys[0].Unit.GetComponent<Unit>();
             action.TargetTile = (LevelPiece)hitableUnitsFromTile[keys[0]];
             DecideType(action);
         }
         else if (keys.Count > 1)
         {
+            Debug.Log("hier (meerkat)");
             List<bool> willDieFromAttack = new List<bool>();
             foreach (LevelPiece tile in keys)
             {
-                willDieFromAttack.Add(SetWeapon(unit, tile.Unit.GetComponent<Unit>(), cursorAction));
+                willDieFromAttack.Add(SetWeapon(unit, tile.Unit.GetComponent<Unit>(), cursorAction, tile));
             }
 
             for (int i = 0; i < willDieFromAttack.Count; i++)
@@ -141,8 +143,10 @@ public class EnemyAction {
         }
     }
 
-    private static bool SetWeapon(Unit unit, Unit target, CursorAction cursorAction)
+    private static bool SetWeapon(Unit unit, Unit target, CursorAction cursorAction, LevelPiece piece)
     {
+        LevelPiece currentTile = unit.GetComponent<Movement>().currentTile;
+        unit.GetComponent<Movement>().currentTile = piece;
         cursorAction.WalkableTiles.Unit = target.gameObject;
         AttackMove weapon = cursorAction.WalkableTiles.DefenderCanHit(unit);
 
@@ -154,9 +158,9 @@ public class EnemyAction {
         {
             unit.Weapon = unit.stats.Attacks[0];
         }
-
-        bool willDie = attackSequence.PredictOutcome(unit, target, weapon, cursorAction.updatePrediction);
-
+        Debug.Log(weapon);
+        bool willDie = cursorAction.attackSequence.PredictOutcome(unit, target, weapon, cursorAction.updatePrediction);
+        unit.GetComponent<Movement>().currentTile = currentTile;
         return willDie;
 
     }

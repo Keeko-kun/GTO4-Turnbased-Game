@@ -47,7 +47,6 @@ public class Movement : MonoBehaviour {
             }
             else
             {
-                Debug.Log(move);
                 if (move.x * Forward().z  < 0 || move.z * Forward().x * -1 < 0)
                 {
                     yield return StartCoroutine(Turn("turnLeft", -1, 90, Globals.spacing));
