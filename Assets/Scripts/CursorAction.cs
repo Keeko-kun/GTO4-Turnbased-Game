@@ -77,11 +77,6 @@ public class CursorAction : MonoBehaviour
                     break;
             }
         }
-        if (Input.GetKeyDown("joystick button 2")) //Remove this.
-        {
-            GetComponent<AIController>().GenerateCommands();
-            StartCoroutine(GetComponent<AIController>().ExecuteCommands());       
-        }
 
         if (Input.GetKey("joystick button 6"))
         {
