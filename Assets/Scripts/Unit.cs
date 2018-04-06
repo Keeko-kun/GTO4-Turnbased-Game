@@ -147,8 +147,6 @@ public class Unit : MonoBehaviour {
         levelUpScreen.transform.GetChild(0).GetComponent<Animator>().SetBool("dismissed", true);
         yield return new WaitForSeconds(1.1f);
         Destroy(levelUpScreen);
-        cursor.mode = ActionMode.SelectTile;
-        cursor.ResetToSelectTile();
     }
 
     public void TakeDamage(int damage, bool crit, GameObject cursor)

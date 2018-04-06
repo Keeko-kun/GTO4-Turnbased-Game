@@ -20,6 +20,8 @@ public class CursorAction : MonoBehaviour
     private fadePanel unitStats;
     private fadePanel buttonsFade;
     private fadePanel predictionsFade;
+    public fadePanel victoryFade;
+    public fadePanel blackness;
     private ChangeStats updatePanel;
     private ChangeWeapons updateWeapons;
     public ChangePrediction updatePrediction { get; private set; }
@@ -41,20 +43,28 @@ public class CursorAction : MonoBehaviour
         updatePanel = statsPanel.GetComponent<ChangeStats>();
         updateWeapons = buttonsPanel.GetComponent<ChangeWeapons>();
         updatePrediction = predictionsPanel.GetComponent<ChangePrediction>();
+
+        StartCoroutine(FadeOut());
+    }
+
+    private IEnumerator FadeOut()
+    {
+        yield return new WaitForSeconds(1f);
+        blackness.visible = false;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown("joystick button 1") && mode != ActionMode.EnemyTurn)
+        if (Input.GetKeyDown("joystick button 1") && mode != ActionMode.EnemyTurn && mode != ActionMode.Victory)
         {
             ResetToSelectTile();
         }
-        if (mode == ActionMode.SelectWeapon)
+        if (mode == ActionMode.SelectWeapon && mode != ActionMode.EnemyTurn)
         {
             SelectWeapon();
             return;
         }
-        if (Input.GetKeyDown("joystick button 0") && mode != ActionMode.EnemyTurn)
+        if (Input.GetKeyDown("joystick button 0") && mode != ActionMode.EnemyTurn && mode != ActionMode.Victory)
         {
             switch (mode)
             {
@@ -260,6 +270,8 @@ public class CursorAction : MonoBehaviour
     {
         if (GetComponent<AIController>().enemyUnits.Count == 0)
         {
+            mode = ActionMode.Victory;
+
             foreach (GameObject unit in GetComponent<PlayerSession>().playerUnits)
             {
                 PlayerPrefs.SetString(unit.GetComponent<Unit>().Name + "_name", unit.GetComponent<Unit>().Name);
@@ -278,9 +290,18 @@ public class CursorAction : MonoBehaviour
                 PlayerPrefsX.SetBool(unit.GetComponent<Unit>().Name + "_maySpawn", true);
                 PlayerPrefs.Save();
             }
-            
-            SceneManager.LoadScene("BasicScene");
+            StartCoroutine(NewLevel());
+
         }
+    }
+
+    private IEnumerator NewLevel()
+    {
+        victoryFade.visible = true;
+        yield return new WaitForSeconds(4.5f);
+        blackness.visible = true;
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene("BasicScene");
     }
 
 
@@ -328,5 +349,6 @@ public enum ActionMode
     ConfirmBattle,
     WaitForBattle,
     ViewEnemyStats,
-    EnemyTurn
+    EnemyTurn,
+    Victory
 }

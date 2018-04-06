@@ -17,6 +17,7 @@ public class fadePanel : MonoBehaviour {
     // Use this for initialization
     void Start () {
         group = GetComponent<CanvasGroup>(); ;
+        alpha = group.alpha;
 	}
 
     void OnGUI()
