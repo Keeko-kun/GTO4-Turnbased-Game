@@ -174,6 +174,7 @@ public class Unit : MonoBehaviour {
         if (playerUnit)
         {
             cursor.GetComponent<PlayerSession>().playerUnits.Remove(gameObject);
+            PlayerPrefsX.SetBool(stats.Name + "_maySpawn", false);
         }
         else
         {

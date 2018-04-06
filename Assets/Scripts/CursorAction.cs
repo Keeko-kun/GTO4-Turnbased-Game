@@ -44,12 +44,6 @@ public class CursorAction : MonoBehaviour
         updateWeapons = buttonsPanel.GetComponent<ChangeWeapons>();
         updatePrediction = predictionsPanel.GetComponent<ChangePrediction>();
 
-        StartCoroutine(FadeOut());
-    }
-
-    private IEnumerator FadeOut()
-    {
-        yield return new WaitForSeconds(1f);
         blackness.visible = false;
     }
 
