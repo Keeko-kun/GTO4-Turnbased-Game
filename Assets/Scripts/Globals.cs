@@ -7,4 +7,6 @@ using System.Text;
 class Globals
 {
     public static float spacing = 2.5f;
+
+    public static bool initialSpawn = false;
 }

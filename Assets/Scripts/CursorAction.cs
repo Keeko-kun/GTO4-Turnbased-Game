@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CursorAction : MonoBehaviour
 {
@@ -251,8 +252,37 @@ public class CursorAction : MonoBehaviour
 
         GetComponent<AIController>().GenerateCommands();
         yield return StartCoroutine(GetComponent<AIController>().ExecuteCommands());
+
         ResetToSelectTile();
     }
+
+    private void FixedUpdate()
+    {
+        if (GetComponent<AIController>().enemyUnits.Count == 0)
+        {
+            foreach (GameObject unit in GetComponent<PlayerSession>().playerUnits)
+            {
+                PlayerPrefs.SetString(unit.GetComponent<Unit>().Name + "_name", unit.GetComponent<Unit>().Name);
+                PlayerPrefs.SetString(unit.GetComponent<Unit>().Name + "_class", unit.GetComponent<Unit>().Class);
+                PlayerPrefs.SetInt(unit.GetComponent<Unit>().Name + "_level", unit.GetComponent<Unit>().Level);
+                PlayerPrefs.SetInt(unit.GetComponent<Unit>().Name + "_experience", unit.GetComponent<Unit>().Experience);
+                PlayerPrefs.SetInt(unit.GetComponent<Unit>().Name + "_health", unit.GetComponent<Unit>().Health);
+                PlayerPrefs.SetInt(unit.GetComponent<Unit>().Name + "_currentHealth", unit.GetComponent<Unit>().CurrentHealth);
+                PlayerPrefs.SetInt(unit.GetComponent<Unit>().Name + "_strength", unit.GetComponent<Unit>().Strength);
+                PlayerPrefs.SetInt(unit.GetComponent<Unit>().Name + "_magic", unit.GetComponent<Unit>().Magic);
+                PlayerPrefs.SetInt(unit.GetComponent<Unit>().Name + "_defense", unit.GetComponent<Unit>().Defense);
+                PlayerPrefs.SetInt(unit.GetComponent<Unit>().Name + "_resistance", unit.GetComponent<Unit>().Resistance);
+                PlayerPrefs.SetInt(unit.GetComponent<Unit>().Name + "_speed", unit.GetComponent<Unit>().Speed);
+                PlayerPrefs.SetInt(unit.GetComponent<Unit>().Name + "_luck", unit.GetComponent<Unit>().Luck);
+                PlayerPrefs.SetInt(unit.GetComponent<Unit>().Name + "_skill", unit.GetComponent<Unit>().Skill);
+                PlayerPrefs.Save();
+            }
+            
+            SceneManager.LoadScene("BasicScene");
+        }
+    }
+
+
 
     public void ResetToSelectTile()
     {

@@ -27,6 +27,7 @@ public class Generate : MonoBehaviour
         cursor = GameObject.Find("Cursor");
         GenerateGrass();
         SpawnUnits();
+        Globals.initialSpawn = true;
     }
 
     private void GenerateGrass()

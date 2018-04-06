@@ -60,7 +60,7 @@ public class Unit : MonoBehaviour {
 
     private void Awake()
     {
-        if (!hasBeenInitialized)
+        if (!Globals.initialSpawn || !playerUnit)
         {
             unitName = stats.Name;
             _class = stats.Class;
@@ -75,11 +75,28 @@ public class Unit : MonoBehaviour {
             speed = stats.Speed;
             luck = stats.Luck;
             skill = stats.Skill;
-            movement = stats.Movement;
-            points = stats.Points;
-
-            weapon = stats.Attacks[0];
         }
+        else
+        {
+            unitName = PlayerPrefs.GetString(stats.Name + "_name");
+            _class = PlayerPrefs.GetString(stats.Name + "_class");
+            level = PlayerPrefs.GetInt(stats.Name + "_level");
+            experience = PlayerPrefs.GetInt(stats.Name + "_experience");
+            health = PlayerPrefs.GetInt(stats.Name + "_health");
+            currentHealth = PlayerPrefs.GetInt(stats.Name + "_currentHealth");
+            strength = PlayerPrefs.GetInt(stats.Name + "_strength");
+            magic = PlayerPrefs.GetInt(stats.Name + "_magic");
+            defense = PlayerPrefs.GetInt(stats.Name + "_defense");
+            resistance = PlayerPrefs.GetInt(stats.Name + "_resistance");
+            speed = PlayerPrefs.GetInt(stats.Name + "_speed");
+            luck = PlayerPrefs.GetInt(stats.Name + "_luck");
+            skill = PlayerPrefs.GetInt(stats.Name + "_skill");
+        }
+
+        movement = stats.Movement;
+        points = stats.Points;
+
+        weapon = stats.Attacks[0];
 
         hasBeenInitialized = true;
     }
