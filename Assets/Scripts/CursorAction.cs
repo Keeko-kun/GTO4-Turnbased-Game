@@ -275,6 +275,7 @@ public class CursorAction : MonoBehaviour
                 PlayerPrefs.SetInt(unit.GetComponent<Unit>().Name + "_speed", unit.GetComponent<Unit>().Speed);
                 PlayerPrefs.SetInt(unit.GetComponent<Unit>().Name + "_luck", unit.GetComponent<Unit>().Luck);
                 PlayerPrefs.SetInt(unit.GetComponent<Unit>().Name + "_skill", unit.GetComponent<Unit>().Skill);
+                PlayerPrefsX.SetBool(unit.GetComponent<Unit>().Name + "_maySpawn", true);
                 PlayerPrefs.Save();
             }
             

@@ -118,6 +118,13 @@ public class Generate : MonoBehaviour
                 new Vector3(0 - (Globals.spacing * i), playerUnits[i].transform.position.y, 0),
                 Quaternion.identity);
             SetUnit(i, 0, u);
+
+            if (Globals.initialSpawn && !u.GetComponent<Unit>().maySpawn)
+            {
+                Destroy(u);
+                continue;
+            }
+
             u.GetComponent<Movement>().pathfinder = GetComponent<Pathfinding>();
             u.GetComponent<Movement>().currentTile = map[i, 0];
 

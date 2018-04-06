@@ -12,6 +12,7 @@ public class Unit : MonoBehaviour {
     public GameObject levelUpParticles;
     public GameObject damageText;
     public bool playerUnit;
+    public bool maySpawn = false;
     public GameObject[] deathParticles = new GameObject[2];
 
     private string unitName;
@@ -91,6 +92,7 @@ public class Unit : MonoBehaviour {
             speed = PlayerPrefs.GetInt(stats.Name + "_speed");
             luck = PlayerPrefs.GetInt(stats.Name + "_luck");
             skill = PlayerPrefs.GetInt(stats.Name + "_skill");
+            maySpawn = PlayerPrefsX.GetBool(stats.Name + "_maySpawn");
         }
 
         movement = stats.Movement;
