@@ -15,7 +15,7 @@ MonoBehaviour:
   _class: Priestess
   level: 1
   experience: 0
-  health: 20
+  health: 16
   strength: 2
   magic: 9
   defense: 5

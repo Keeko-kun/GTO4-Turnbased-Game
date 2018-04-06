@@ -25,9 +25,6 @@ public class EnemyAction {
 
         WithinRange(unit, cursorAction, action);
 
-        cursorAction.GetComponent<MoveCursor>().map.SetUnit((int)currentTile.PosX, (int)currentTile.PosZ, null);
-        cursorAction.GetComponent<MoveCursor>().map.SetUnit((int)action.TargetTile.PosX, (int)action.TargetTile.PosZ, action.Unit.gameObject);
-
         if (action.ActionType == EnemyActionType.Attack || action.ActionType == EnemyActionType.WalkAttack)
             SetWeapon(action.Unit, action.TargetUnit, cursorAction, action.TargetTile);
 

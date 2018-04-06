@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIController : MonoBehaviour {
+public class AIController : MonoBehaviour
+{
 
     public List<GameObject> enemyPrefabs;
 
@@ -23,27 +24,40 @@ public class AIController : MonoBehaviour {
 
     public IEnumerator ExecuteCommands()
     {
-        foreach (EnemyAction command in commands)
+        EnemyAction cmd = null;
+        for (int i = enemyUnits.Count - 1; i >= 0; i--)
         {
-            if (command.ActionType == EnemyActionType.Walk)
+            cmd = EnemyAction.GetNewAction(enemyUnits[i].GetComponent<Unit>(), GetComponent<CursorAction>());
+
+            if (cmd.ActionType == EnemyActionType.Attack || cmd.ActionType == EnemyActionType.WalkAttack)
             {
-                yield return StartCoroutine(Walk(command));
+                if (cmd.TargetUnit == null)
+                {
+                    cmd = EnemyAction.GetNewAction(cmd.Unit, GetComponent<CursorAction>());
+                }
             }
-            else if (command.ActionType == EnemyActionType.Attack)
+
+            if (cmd.ActionType == EnemyActionType.Walk)
             {
-                yield return StartCoroutine(Attack(command));
+                yield return StartCoroutine(Walk(cmd));
             }
-            else if (command.ActionType == EnemyActionType.WalkAttack)
+            else if (cmd.ActionType == EnemyActionType.Attack)
             {
-                yield return StartCoroutine(Walk(command));
+                yield return StartCoroutine(Attack(cmd));
+            }
+            else if (cmd.ActionType == EnemyActionType.WalkAttack)
+            {
+                yield return StartCoroutine(Walk(cmd));
                 yield return new WaitForFixedUpdate();
-                yield return StartCoroutine(Attack(command));
+                yield return StartCoroutine(Attack(cmd));
             }
         }
+
     }
 
     private IEnumerator Walk(EnemyAction command)
     {
+        GetComponent<MoveCursor>().map.SetUnit((int)command.Unit.GetComponent<Movement>().currentTile.PosX, (int)command.Unit.GetComponent<Movement>().currentTile.PosZ, null);
         GetComponent<MoveCursor>().map.SetUnit((int)command.TargetTile.PosX, (int)command.TargetTile.PosZ, command.Unit.gameObject);
         yield return StartCoroutine(command.Unit.GetComponent<Movement>().StartMovement(command.TargetTile));
     }
@@ -62,7 +76,7 @@ public class AIController : MonoBehaviour {
             totalLevel += unit.GetComponent<Unit>().Level;
         }
 
-        
+
 
         foreach (GameObject unit in enemyUnits)
         {
@@ -70,7 +84,7 @@ public class AIController : MonoBehaviour {
             for (int i = 0; i < averageLevel; i++)
             {
                 unit.GetComponent<Unit>().IncreaseExperience(100, GetComponent<CursorAction>());
-            }          
+            }
         }
     }
 

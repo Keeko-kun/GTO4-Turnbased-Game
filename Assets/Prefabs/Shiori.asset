@@ -15,7 +15,7 @@ MonoBehaviour:
   _class: Mercenary
   level: 1
   experience: 0
-  health: 20
+  health: 17
   strength: 9
   magic: 0
   defense: 6
