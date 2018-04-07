@@ -16,7 +16,7 @@ MonoBehaviour:
   level: 1
   experience: 0
   health: 16
-  strength: 2
+  strength: 3
   magic: 9
   defense: 5
   resistance: 8

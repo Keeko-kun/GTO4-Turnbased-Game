@@ -9,21 +9,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46153375ffccea9499ca3aea1eda186f, type: 3}
-  m_Name: Mage
+  m_Name: Dark Mage
   m_EditorClassIdentifier: 
-  unitName: 
-  _class: 
-  level: 0
+  unitName: Dark Mage
+  _class: Enemy
+  level: 1
   experience: 0
-  health: 0
+  health: 17
   strength: 0
-  magic: 0
-  defense: 0
-  resistance: 0
-  speed: 0
-  luck: 0
-  skill: 0
-  movement: 0
-  points: 0
-  attacks: []
-  growthPercentage: 0000000000000000000000000000000000000000000000000000000000000000
+  magic: 4
+  defense: 5
+  resistance: 8
+  speed: 5
+  luck: 5
+  skill: 2
+  movement: 2
+  points: 45
+  attacks:
+  - attackName: Dark Spell
+    type: 1
+    range: 2
+    might: 3
+    hit: 0.8
+    crit: 0.6
+  growthPercentage: 1e00000000000000280000001e00000028000000190000001e00000028000000

@@ -11,19 +11,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46153375ffccea9499ca3aea1eda186f, type: 3}
   m_Name: Mercenary
   m_EditorClassIdentifier: 
-  unitName: 
-  _class: 
-  level: 0
+  unitName: Mercenary
+  _class: Enemy
+  level: 1
   experience: 0
-  health: 0
-  strength: 0
+  health: 18
+  strength: 4
   magic: 0
-  defense: 0
-  resistance: 0
-  speed: 0
+  defense: 5
+  resistance: 4
+  speed: 8
   luck: 0
-  skill: 0
-  movement: 0
-  points: 0
-  attacks: []
-  growthPercentage: 0000000000000000000000000000000000000000000000000000000000000000
+  skill: 6
+  movement: 3
+  points: 40
+  attacks:
+  - attackName: Foeksia
+    type: 0
+    range: 1
+    might: 4
+    hit: 0.9
+    crit: 0.2
+  growthPercentage: 1e000000280000000000000023000000230000002d000000000000002d000000

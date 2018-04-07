@@ -11,19 +11,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46153375ffccea9499ca3aea1eda186f, type: 3}
   m_Name: General
   m_EditorClassIdentifier: 
-  unitName: 
-  _class: 
-  level: 0
+  unitName: General
+  _class: Enemy
+  level: 1
   experience: 0
-  health: 0
-  strength: 0
+  health: 18
+  strength: 6
   magic: 0
-  defense: 0
-  resistance: 0
-  speed: 0
-  luck: 0
-  skill: 0
-  movement: 0
-  points: 0
-  attacks: []
-  growthPercentage: 0000000000000000000000000000000000000000000000000000000000000000
+  defense: 6
+  resistance: 1
+  speed: 4
+  luck: 5
+  skill: 5
+  movement: 2
+  points: 45
+  attacks:
+  - attackName: Heavy Axe
+    type: 0
+    range: 1
+    might: 4
+    hit: 0.6
+    crit: 0.3
+  growthPercentage: 2d00000028000000000000001e0000000f0000001e000000140000001e000000

@@ -11,19 +11,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46153375ffccea9499ca3aea1eda186f, type: 3}
   m_Name: Light Mage
   m_EditorClassIdentifier: 
-  unitName: 
-  _class: 
-  level: 0
+  unitName: Light Mage
+  _class: Enemy
+  level: 1
   experience: 0
-  health: 0
+  health: 15
   strength: 0
-  magic: 0
-  defense: 0
-  resistance: 0
-  speed: 0
-  luck: 0
-  skill: 0
-  movement: 0
-  points: 0
-  attacks: []
-  growthPercentage: 0000000000000000000000000000000000000000000000000000000000000000
+  magic: 4
+  defense: 6
+  resistance: 3
+  speed: 7
+  luck: 1
+  skill: 1
+  movement: 2
+  points: 37
+  attacks:
+  - attackName: Light Spell
+    type: 1
+    range: 2
+    might: 3
+    hit: 0.1
+    crit: 0.7
+  growthPercentage: 3200000000000000260000003200000014000000280000001400000014000000

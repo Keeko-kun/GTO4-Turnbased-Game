@@ -15,7 +15,7 @@ MonoBehaviour:
   _class: Enemy
   level: 1
   experience: 0
-  health: 1
+  health: 14
   strength: 5
   magic: 0
   defense: 4
@@ -23,8 +23,8 @@ MonoBehaviour:
   speed: 6
   luck: 2
   skill: 2
-  movement: 300
-  points: 100
+  movement: 3
+  points: 30
   attacks:
   - attackName: Iron Sword
     type: 0
@@ -32,4 +32,4 @@ MonoBehaviour:
     might: 3
     hit: 0.7
     crit: 0.1
-  growthPercentage: 2d00000023000000000000001e000000140000000a0000002d00000023000000
+  growthPercentage: 2d00000023000000000000001e00000014000000190000002d00000023000000
