@@ -9,8 +9,13 @@ public class StartGame : MonoBehaviour {
 
     private bool clickedA = false;
 
-	// Update is called once per frame
-	void Update () {
+    private void Start()
+    {
+        Globals.initialSpawn = false;
+    }
+
+    // Update is called once per frame
+    void Update () {
 		if (Input.GetKeyDown("joystick button 0") && !clickedA)
         {
             StartCoroutine(ClickedA());

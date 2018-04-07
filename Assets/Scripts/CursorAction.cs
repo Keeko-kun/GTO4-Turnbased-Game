@@ -21,6 +21,7 @@ public class CursorAction : MonoBehaviour
     private fadePanel buttonsFade;
     private fadePanel predictionsFade;
     public fadePanel victoryFade;
+    public fadePanel gameOverFade;
     public fadePanel blackness;
     private ChangeStats updatePanel;
     private ChangeWeapons updateWeapons;
@@ -287,6 +288,12 @@ public class CursorAction : MonoBehaviour
             StartCoroutine(NewLevel());
 
         }
+        else if (GetComponent<PlayerSession>().playerUnits.Count == 0)
+        {
+            mode = ActionMode.Victory;
+
+            StartCoroutine(GameOver());
+        }
     }
 
     private IEnumerator NewLevel()
@@ -298,6 +305,14 @@ public class CursorAction : MonoBehaviour
         SceneManager.LoadScene("BasicScene");
     }
 
+    private IEnumerator GameOver()
+    {
+        gameOverFade.visible = true;
+        yield return new WaitForSeconds(4.5f);
+        blackness.visible = true;
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene("Intro Screen");
+    }
 
 
     public void ResetToSelectTile()
