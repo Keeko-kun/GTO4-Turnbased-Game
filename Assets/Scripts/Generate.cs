@@ -122,6 +122,7 @@ public class Generate : MonoBehaviour
             if (Globals.initialSpawn && !u.GetComponent<Unit>().maySpawn)
             {
                 Destroy(u);
+                playerUnits[i] = null;
                 continue;
             }
 
@@ -130,6 +131,8 @@ public class Generate : MonoBehaviour
 
             cursor.GetComponent<PlayerSession>().playerUnits[i] = u;
         }
+
+        cursor.GetComponent<PlayerSession>().playerUnits.RemoveAll(item => item == null);
 
         AIController aiController = cursor.GetComponent<AIController>();
 
