@@ -103,6 +103,17 @@ public class Unit : MonoBehaviour {
         hasBeenInitialized = true;
     }
 
+    public void HealAfterVictory()
+    {
+        int heal = (int)Math.Round((decimal)health / (decimal)4);
+        currentHealth += heal;
+
+        if (currentHealth > health)
+        {
+            currentHealth = health;
+        }
+    }
+
     public void IncreaseExperience(int exp, CursorAction cursor)
     {
         experience += exp;

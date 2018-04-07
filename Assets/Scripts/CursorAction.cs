@@ -269,6 +269,8 @@ public class CursorAction : MonoBehaviour
 
             foreach (GameObject unit in GetComponent<PlayerSession>().playerUnits)
             {
+                unit.GetComponent<Unit>().HealAfterVictory();
+
                 PlayerPrefs.SetString(unit.GetComponent<Unit>().Name + "_name", unit.GetComponent<Unit>().Name);
                 PlayerPrefs.SetString(unit.GetComponent<Unit>().Name + "_class", unit.GetComponent<Unit>().Class);
                 PlayerPrefs.SetInt(unit.GetComponent<Unit>().Name + "_level", unit.GetComponent<Unit>().Level);

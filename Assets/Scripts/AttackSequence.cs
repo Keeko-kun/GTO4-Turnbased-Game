@@ -13,7 +13,7 @@ public class AttackSequence : MonoBehaviour
         int critAttacker, critDefender;
         bool attackerTwice, defenderTwice, canDefenderHit;
 
-        canDefenderHit = CanDefenderHit(defender);
+        canDefenderHit = CanDefenderHit(defender, attacker);
 
         AttackMove moveDefender = defender.Weapon;
 
@@ -111,8 +111,9 @@ public class AttackSequence : MonoBehaviour
         return currentHealth;
     }
 
-    public bool CanDefenderHit(Unit defender)
+    public bool CanDefenderHit(Unit defender, Unit attacker)
     {
+        GetComponent<CursorAction>().WalkableTiles.Unit = attacker.gameObject;
         AttackMove defenderWeapon = GetComponent<CursorAction>().WalkableTiles.DefenderCanHit(defender);
 
         if (defenderWeapon != null)

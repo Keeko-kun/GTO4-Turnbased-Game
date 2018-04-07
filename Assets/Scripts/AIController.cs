@@ -65,6 +65,7 @@ public class AIController : MonoBehaviour
     private IEnumerator Attack(EnemyAction command)
     {
         yield return new WaitForSeconds(0.5f);
+        GetComponent<CursorAction>().attackSequence.PredictOutcome(command.Unit, command.TargetUnit, command.Unit.Weapon, GetComponent<CursorAction>().updatePrediction);
         yield return StartCoroutine(GetComponent<CursorAction>().ConfirmBattle(command.Unit, command.TargetUnit));
     }
 
