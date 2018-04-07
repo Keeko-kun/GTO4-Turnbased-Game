@@ -19,7 +19,7 @@ MonoBehaviour:
   strength: 0
   magic: 4
   defense: 5
-  resistance: 8
+  resistance: 6
   speed: 5
   luck: 5
   skill: 2
