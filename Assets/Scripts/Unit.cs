@@ -106,6 +106,7 @@ public class Unit : MonoBehaviour {
     public void HealAfterVictory()
     {
         int heal = (int)Math.Round((decimal)health / (decimal)4);
+        Debug.Log(heal);
         currentHealth += heal;
 
         if (currentHealth > health)

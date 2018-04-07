@@ -7,6 +7,7 @@ using UnityEngine;
 public class Generate : MonoBehaviour
 {
 
+    public GameObject cursor;
     public List<GameObject> grass;
     public GameObject water;
     public GameObject bridge;
@@ -19,12 +20,10 @@ public class Generate : MonoBehaviour
     private float spacing = Globals.spacing;
     private List<LevelPiece> path;
     private List<GameObject> physicalPath = new List<GameObject>();
-    private GameObject cursor;
 
 
     void Start()
     {
-        cursor = GameObject.Find("Cursor");
         GenerateGrass();
         SpawnUnits();
         Globals.initialSpawn = true;
@@ -32,6 +31,7 @@ public class Generate : MonoBehaviour
 
     private void GenerateGrass()
     {
+        mapSize = random.Next(6, 12);
         map = new LevelPiece[mapSize, mapSize];
         for (int x = 0; x < mapSize; x++)
         {
@@ -133,7 +133,7 @@ public class Generate : MonoBehaviour
 
         AIController aiController = cursor.GetComponent<AIController>();
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 1; i++)
         {
             int rnd = random.Next(0, aiController.enemyPrefabs.Count);
             GameObject u = Instantiate(aiController.enemyPrefabs[rnd],

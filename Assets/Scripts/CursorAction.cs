@@ -263,7 +263,7 @@ public class CursorAction : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (GetComponent<AIController>().enemyUnits.Count == 0)
+        if (GetComponent<AIController>().enemyUnits.Count == 0 && mode != ActionMode.Victory)
         {
             mode = ActionMode.Victory;
 
@@ -290,7 +290,7 @@ public class CursorAction : MonoBehaviour
             StartCoroutine(NewLevel());
 
         }
-        else if (GetComponent<PlayerSession>().playerUnits.Count == 0)
+        else if (GetComponent<PlayerSession>().playerUnits.Count == 0 && mode != ActionMode.Victory)
         {
             mode = ActionMode.Victory;
 
