@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +18,29 @@ public class MoveCamera : MonoBehaviour
         orthographicSize = GetComponent<Camera>().orthographicSize;
 
         JoystickStuff();
+
+        KeyboardStuff();
+    }
+
+    private void KeyboardStuff()
+    {
+        if (Input.GetAxis("Right Click") == 0)
+        {
+            Vector3 translation = new Vector3(Input.GetAxis("HorizontalKeys") * moveSpeed * Time.deltaTime, -Input.GetAxis("VerticalKeys") * moveSpeed * Time.deltaTime, 0);
+            transform.Translate(translation);
+
+            transform.RotateAround(cursor.transform.position, Vector3.up, Input.GetAxis("Rotate Left") * rotateSpeed * Time.deltaTime); //Rotate Left
+
+            transform.RotateAround(cursor.transform.position, Vector3.down, Input.GetAxis("Rotate Right") * rotateSpeed * Time.deltaTime); //Rotate Right
+        }
+        else
+        {
+            if (orthographicSize + Input.GetAxis("VerticalKeys") * zoomSpeed > 0.5f && orthographicSize + Input.GetAxis("VerticalKeys") * zoomSpeed < 15)
+            {
+                GetComponent<Camera>().orthographicSize += Input.GetAxis("VerticalKeys") * zoomSpeed;
+            }
+
+        }
     }
 
     void JoystickStuff()

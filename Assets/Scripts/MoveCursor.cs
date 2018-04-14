@@ -30,30 +30,30 @@ public class MoveCursor : MonoBehaviour {
 	void Update () {
         if (canMove && action.mode != ActionMode.SelectAction && action.mode != ActionMode.SelectWeapon && action.mode != ActionMode.ConfirmBattle && action.mode != ActionMode.WaitForBattle)
         {
-            if (Input.GetAxisRaw("HorizontalL") == 1)
+            if (Input.GetAxisRaw("HorizontalL") == 1 || Input.GetKeyDown(KeyCode.RightArrow))
             {
                 MoveArrowOnMap(1, 0);                
             }
-            else if (Input.GetAxisRaw("HorizontalL") == -1)
+            else if (Input.GetAxisRaw("HorizontalL") == -1 || Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 MoveArrowOnMap(-1, 0);
             }
-            else if (Input.GetAxisRaw("VerticalL") == 1)
+            else if (Input.GetAxisRaw("VerticalL") == 1 || Input.GetKeyDown(KeyCode.DownArrow))
             {
                 MoveArrowOnMap(0, 1);
             }
-            else if (Input.GetAxisRaw("VerticalL") == -1)
+            else if (Input.GetAxisRaw("VerticalL") == -1 || Input.GetKeyDown(KeyCode.UpArrow))
             {
                 MoveArrowOnMap(0, -1);
             }
         }
         else if (canMove && action.mode == ActionMode.SelectAction)
         {
-            if (Input.GetAxisRaw("VerticalL") == 1)
+            if (Input.GetAxisRaw("VerticalL") == 1 || Input.GetKeyDown(KeyCode.DownArrow))
             {
                 MoveActionSelect(false);
             }
-            else if (Input.GetAxisRaw("VerticalL") == -1)
+            else if (Input.GetAxisRaw("VerticalL") == -1 || Input.GetKeyDown(KeyCode.UpArrow))
             {
                 MoveActionSelect(true);
             }

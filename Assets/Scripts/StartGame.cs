@@ -16,7 +16,7 @@ public class StartGame : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		if (Input.GetKeyDown("joystick button 0") && !clickedA)
+		if (Input.GetAxis("A Button") == 1 && !clickedA)
         {
             StartCoroutine(ClickedA());
         }

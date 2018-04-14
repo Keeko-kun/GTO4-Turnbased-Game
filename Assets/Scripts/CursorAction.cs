@@ -28,6 +28,8 @@ public class CursorAction : MonoBehaviour
     public ChangePrediction updatePrediction { get; private set; }
     public AttackSequence attackSequence { get; private set; }
 
+    private bool aButtonClicked = false;
+
     public AllWalkableTiles WalkableTiles { get { return walkableTiles; } }
 
     private void Start()
@@ -50,7 +52,12 @@ public class CursorAction : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown("joystick button 1") && mode != ActionMode.EnemyTurn && mode != ActionMode.Victory)
+        if (Input.GetAxis("A Button") < 1)
+        {
+            aButtonClicked = false;
+        }
+
+        if (Input.GetAxis("B Button") == 1 && mode != ActionMode.EnemyTurn && mode != ActionMode.Victory)
         {
             ResetToSelectTile();
         }
@@ -59,8 +66,9 @@ public class CursorAction : MonoBehaviour
             SelectWeapon();
             return;
         }
-        if (Input.GetKeyDown("joystick button 0") && mode != ActionMode.EnemyTurn && mode != ActionMode.Victory)
+        if (Input.GetAxis("A Button") == 1 && mode != ActionMode.EnemyTurn && mode != ActionMode.Victory && !aButtonClicked)
         {
+            aButtonClicked = true;
             switch (mode)
             {
                 case ActionMode.MoveUnit:
@@ -84,7 +92,7 @@ public class CursorAction : MonoBehaviour
             }
         }
 
-        if (Input.GetKey("joystick button 6"))
+        if (Input.GetAxis("Speed Up") == 1)
         {
             Time.timeScale = 3;
         }
@@ -96,17 +104,18 @@ public class CursorAction : MonoBehaviour
 
     private void SelectWeapon()
     {
-        if (Input.GetKeyDown("joystick button 0") && updateWeapons.buttons[0].text != "")
+        if (Input.GetAxis("A Button") == 1 && updateWeapons.buttons[0].text != "" && !aButtonClicked)
         {
+            aButtonClicked = true;
             unit.GetComponent<Unit>().Weapon = unit.GetComponent<Unit>().stats.Attacks[0];
             SelectWeaponToAttackWith();
         }
-        else if (Input.GetKeyDown("joystick button 2") && updateWeapons.buttons[1].text != "")
+        else if (Input.GetAxis("X Button") == 1 && updateWeapons.buttons[1].text != "")
         {
             unit.GetComponent<Unit>().Weapon = unit.GetComponent<Unit>().stats.Attacks[1];
             SelectWeaponToAttackWith();
         }
-        else if (Input.GetKeyDown("joystick button 3") && updateWeapons.buttons[2].text != "")
+        else if (Input.GetAxis("Y Button") == 1 && updateWeapons.buttons[2].text != "")
         {
             unit.GetComponent<Unit>().Weapon = unit.GetComponent<Unit>().stats.Attacks[2];
             SelectWeaponToAttackWith();
